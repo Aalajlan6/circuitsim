@@ -1,0 +1,139 @@
+Operations.java: 
+	changeSign: 0.0/5.0
+		[fail] Failed test case for method changeSign. Arguments [42]; Expected return value: -42; Actual: 0
+		[fail] Failed test case for method changeSign. Arguments [-173]; Expected return value: 173; Actual: 0
+		[fail] Failed test case for method changeSign. Arguments [-1091577122]; Expected return value: 1091577122; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	getByte: 0.0/5.0
+		[fail] Failed test case for method getByte. Arguments [422212995, 1]; Expected return value: 117; Actual: 0
+		[fail] Failed test case for method getByte. Arguments [-559874102, 0]; Expected return value: 202; Actual: 0
+		[fail] Failed test case for method getByte. Arguments [-1091577122, 3]; Expected return value: 190; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	circularLeftShiftBytes: 0.0/5.0
+		[fail] Failed test case for method circularLeftShiftBytes. Arguments [305419896]; Expected return value: 878082066; Actual: 0
+		[fail] Failed test case for method circularLeftShiftBytes. Arguments [-1430532899]; Expected return value: -1144201814; Actual: 0
+		[fail] Failed test case for method circularLeftShiftBytes. Arguments [-2027539343]; Expected return value: 640971143; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	insertShort: 0.0/5.0
+		[fail] Failed test case for method insertShort. Arguments [33335, 37290]; Expected return value: -2104382921; Actual: 0
+		[fail] Failed test case for method insertShort. Arguments [4660, 22136]; Expected return value: 307656756; Actual: 0
+		[fail] Failed test case for method insertShort. Arguments [43690, 65535]; Expected return value: -1426063446; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	bitRange: 0.0/5.0
+		[fail] Failed test case for method bitRange. Arguments [-858993460, 15, 9]; Expected return value: 409; Actual: 0
+		[fail] Failed test case for method bitRange. Arguments [22161, 0, 8]; Expected return value: 145; Actual: 0
+		[fail] Failed test case for method bitRange. Arguments [4552329, 8, 8]; Expected return value: 118; Actual: 0
+		[fail] Failed test case for method bitRange. Arguments [2147483647, 0, 31]; Expected return value: 2147483647; Actual: 0
+		(-0.0) Violations:
+			Method not implemented
+	xor: 0.0/5.0
+		[fail] Failed test case for method xor. Arguments [305419896, -2023406815]; Expected return value: -1789848231; Actual: 0
+		[fail] Failed test case for method xor. Arguments [-16711936, 16711935]; Expected return value: -1; Actual: 0
+		[fail] Failed test case for method xor. Arguments [858993459, 1431655765]; Expected return value: 1717986918; Actual: 0
+		[fail] Failed test case for method xor. Arguments [-1161901314, -1091576147]; Expected return value: 72422483; Actual: 0
+		(-0.0) Violations:
+			Method not implemented
+	multipleOf2: 0.0/3.0
+		[fail] Failed test case for method multipleOf2. Arguments [518]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf2. Arguments [0]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf2. Arguments [-268435456]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf2. Arguments [8]; Expected return value: true; Actual: false
+		(-1.5) Violations:
+			Method not implemented
+	multipleOf64: 0.0/3.0
+		[fail] Failed test case for method multipleOf64. Arguments [-1461632]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf64. Arguments [262144]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf64. Arguments [0]; Expected return value: true; Actual: false
+		[fail] Failed test case for method multipleOf64. Arguments [-128]; Expected return value: true; Actual: false
+		(-1.5) Violations:
+			Method not implemented
+	powerOf2: 0.0/4.0
+		[fail] Failed test case for method powerOf2. Arguments [4194304]; Expected return value: true; Actual: false
+		[fail] Failed test case for method powerOf2. Arguments [16384]; Expected return value: true; Actual: false
+		[fail] Failed test case for method powerOf2. Arguments [1]; Expected return value: true; Actual: false
+		(-2.5) Violations:
+			Method not implemented
+Bases.java: 
+	binaryStringToInt: 0.0/5.0
+		[fail] Failed test case for method binaryStringToInt. Arguments [11001]; Expected return value: 25; Actual: 0
+		[fail] Failed test case for method binaryStringToInt. Arguments [111011]; Expected return value: 59; Actual: 0
+		[fail] Failed test case for method binaryStringToInt. Arguments [1111111111111111111111111111110]; Expected return value: 2147483646; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	decimalStringToInt: 0.0/5.0
+		[fail] Failed test case for method decimalStringToInt. Arguments [2147483647]; Expected return value: 2147483647; Actual: 0
+		[fail] Failed test case for method decimalStringToInt. Arguments [15234]; Expected return value: 15234; Actual: 0
+		[fail] Failed test case for method decimalStringToInt. Arguments [046]; Expected return value: 46; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	octalStringToBinaryString: 0.0/5.0
+		[fail] Failed test case for method octalStringToBinaryString. Arguments [716]; Expected return value: 111001110; Actual: Empty string
+		[fail] Failed test case for method octalStringToBinaryString. Arguments [000]; Expected return value: 0; Actual: Empty string
+		[fail] Failed test case for method octalStringToBinaryString. Arguments [2626171]; Expected return value: 10110010110001111001; Actual: Empty string
+		[fail] Failed test case for method octalStringToBinaryString. Arguments [27]; Expected return value: 10111; Actual: Empty string
+	hexStringToInt: 0.0/5.0
+		[fail] Failed test case for method hexStringToInt. Arguments [7FEFFFF2]; Expected return value: 2146435058; Actual: 0
+		[fail] Failed test case for method hexStringToInt. Arguments [2E079F]; Expected return value: 3016607; Actual: 0
+		[fail] Failed test case for method hexStringToInt. Arguments [479]; Expected return value: 1145; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	binaryStringToHexString: 0.0/5.0
+		[fail] Failed test case for method binaryStringToHexString. Arguments [01111111111111101111111111111111]; Expected return value: 7FFEFFFF; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000010000111100111011]; Expected return value: 00010F3B; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000000000000000000000]; Expected return value: 00000000; Actual: Empty string
+		[fail] Failed test case for method binaryStringToHexString. Arguments [00000000000000000000000011000010]; Expected return value: 000000C2; Actual: Empty string
+BitVector.java: 
+	set: 0.0/5.0
+		[fail] Failed test case for method set. Arguments [20]; bits initial value: 65535; Expected bits value: 1114111; Actual: 65535
+		[fail] Failed test case for method set. Arguments [31]; bits initial value: 2147483647; Expected bits value: -1; Actual: 2147483647
+		[fail] Failed test case for method set. Arguments [3]; bits initial value: 23; Expected bits value: 31; Actual: 23
+		(-1.25) Violations:
+			Method not implemented
+	clear: 0.0/5.0
+		[fail] Failed test case for method clear. Arguments [12]; bits initial value: 4096; Expected bits value: 0; Actual: 4096
+		[fail] Failed test case for method clear. Arguments [3]; bits initial value: 15; Expected bits value: 7; Actual: 15
+		[fail] Failed test case for method clear. Arguments [16]; bits initial value: 131071; Expected bits value: 65535; Actual: 131071
+		[fail] Failed test case for method clear. Arguments [31]; bits initial value: -1; Expected bits value: 2147483647; Actual: -1
+		(-0.0) Violations:
+			Method not implemented
+	toggle: 0.0/5.0
+		[fail] Failed test case for method toggle. Arguments [11]; bits initial value: -1412562945; Expected bits value: -1412564993; Actual: -1412562945
+		[fail] Failed test case for method toggle. Arguments [0]; bits initial value: -15; Expected bits value: -16; Actual: -15
+		[fail] Failed test case for method toggle. Arguments [31]; bits initial value: 734916607; Expected bits value: -1412567041; Actual: 734916607
+		[fail] Failed test case for method toggle. Arguments [5]; bits initial value: -209; Expected bits value: -241; Actual: -209
+		(-0.0) Violations:
+			Method not implemented
+	isSet: 0.0/5.0
+		[fail] Failed test case for method isSet. Arguments [12]; bits initial value: 1966773963; Expected return value: true; Actual: false
+		[fail] Failed test case for method isSet. Arguments [1]; bits initial value: -180709685; Expected return value: true; Actual: false
+		(-2.5) Violations:
+			Method not implemented
+	isClear: 0.0/5.0
+		[fail] Failed test case for method isClear. Arguments [32]; bits initial value: -249359853; Expected return value: true; Actual: false
+		[fail] Failed test case for method isClear. Arguments [12]; bits initial value: 16843055; Expected return value: true; Actual: false
+		(-2.5) Violations:
+			Method not implemented
+	onesCount: 0.0/5.0
+		[fail] Failed test case for method onesCount. Arguments []; bits initial value: -3841; Expected return value: 28; Actual: 0
+		[fail] Failed test case for method onesCount. Arguments []; bits initial value: -30600; Expected return value: 22; Actual: 0
+		[fail] Failed test case for method onesCount. Arguments []; bits initial value: 1197818657; Expected return value: 13; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	trailingZerosCount: 0.0/5.0
+		[fail] Failed test case for method trailingZerosCount. Arguments []; bits initial value: -1386057440; Expected return value: 5; Actual: 0
+		[fail] Failed test case for method trailingZerosCount. Arguments []; bits initial value: 1118208; Expected return value: 12; Actual: 0
+		[fail] Failed test case for method trailingZerosCount. Arguments []; bits initial value: 0; Expected return value: 32; Actual: 0
+		(-1.25) Violations:
+			Method not implemented
+	isPattern: 0.0/5.0
+		[fail] Failed test case for method isPattern. Arguments []; bits initial value: 303174162; Expected return value: true; Actual: false
+		[fail] Failed test case for method isPattern. Arguments []; bits initial value: 1717986918; Expected return value: true; Actual: false
+		[fail] Failed test case for method isPattern. Arguments []; bits initial value: 1468159874; Expected return value: true; Actual: false
+		[fail] Failed test case for method isPattern. Arguments []; bits initial value: -1431655766; Expected return value: true; Actual: false
+		(-2.5) Violations:
+			Method not implemented
+Final Grade: 0.0/105.0
