@@ -8024,6 +8024,52 @@
       "name": "CC-Logic",
       "components": [
         {
+          "name": "com.ra4king.circuitsim.gui.peers.wiring.Tunnel",
+          "x": 31,
+          "y": 35,
+          "properties": {
+            "Label": "in",
+            "Direction": "SOUTH",
+            "Width": "2",
+            "Bitsize": "16"
+          }
+        },
+        {
+          "name": "com.ra4king.circuitsim.gui.peers.wiring.Tunnel",
+          "x": 16,
+          "y": 20,
+          "properties": {
+            "Label": "in",
+            "Direction": "EAST",
+            "Width": "2",
+            "Bitsize": "16"
+          }
+        },
+        {
+          "name": "com.ra4king.circuitsim.gui.peers.wiring.ConstantPeer",
+          "x": 12,
+          "y": 22,
+          "properties": {
+            "Label location": "NORTH",
+            "Label": "",
+            "Value": "0",
+            "Direction": "EAST",
+            "Bitsize": "16",
+            "Base": "BINARY"
+          }
+        },
+        {
+          "name": "com.ra4king.circuitsim.gui.peers.arithmetic.ComparatorPeer",
+          "x": 20,
+          "y": 20,
+          "properties": {
+            "Comparison Type": "2\u0027s complement",
+            "Label location": "NORTH",
+            "Label": "",
+            "Bitsize": "16"
+          }
+        },
+        {
           "name": "com.ra4king.circuitsim.gui.peers.memory.RegisterPeer",
           "x": 39,
           "y": 17,
@@ -8104,21 +8150,110 @@
         {
           "name": "com.ra4king.circuitsim.gui.peers.misc.Text",
           "x": 1,
-          "y": 1,
+          "y": 6,
           "properties": {
-            "Text": "Name:"
+            "Text": "DO NOT MOVE THE ORIENTATION OF THE PINS EX. LDCC MUST FACE RIGHT"
+          }
+        },
+        {
+          "name": "com.ra4king.circuitsim.gui.peers.wiring.SplitterPeer",
+          "x": 26,
+          "y": 19,
+          "properties": {
+            "Label location": "NORTH",
+            "Fanouts": "3",
+            "Input location": "Left/Top",
+            "Label": "",
+            "Bit 2": "2",
+            "Direction": "WEST",
+            "Bit 1": "1",
+            "Bitsize": "3",
+            "Bit 0": "0"
           }
         },
         {
           "name": "com.ra4king.circuitsim.gui.peers.misc.Text",
           "x": 1,
-          "y": 6,
+          "y": 1,
           "properties": {
-            "Text": "DO NOT MOVE THE ORIENTATION OF THE PINS EX. LDCC MUST FACE RIGHT"
+            "Text": "Name: Abdulaziz Alajlan"
           }
         }
       ],
-      "wires": []
+      "wires": [
+        {
+          "x": 19,
+          "y": 30,
+          "length": 20,
+          "isHorizontal": true
+        },
+        {
+          "x": 24,
+          "y": 21,
+          "length": 2,
+          "isHorizontal": true
+        },
+        {
+          "x": 24,
+          "y": 22,
+          "length": 2,
+          "isHorizontal": true
+        },
+        {
+          "x": 24,
+          "y": 23,
+          "length": 2,
+          "isHorizontal": true
+        },
+        {
+          "x": 28,
+          "y": 19,
+          "length": 11,
+          "isHorizontal": true
+        },
+        {
+          "x": 35,
+          "y": 14,
+          "length": 8,
+          "isHorizontal": true
+        },
+        {
+          "x": 39,
+          "y": 20,
+          "length": 10,
+          "isHorizontal": false
+        },
+        {
+          "x": 40,
+          "y": 21,
+          "length": 8,
+          "isHorizontal": false
+        },
+        {
+          "x": 40,
+          "y": 29,
+          "length": 9,
+          "isHorizontal": true
+        },
+        {
+          "x": 42,
+          "y": 21,
+          "length": 5,
+          "isHorizontal": false
+        },
+        {
+          "x": 42,
+          "y": 26,
+          "length": 7,
+          "isHorizontal": true
+        },
+        {
+          "x": 43,
+          "y": 14,
+          "length": 5,
+          "isHorizontal": false
+        }
+      ]
     },
     {
       "name": "ALU",
@@ -13776,6 +13911,10 @@
     "OWFlNTM5ZjY5YjkwMWI2Yjc1Y2E0MTA1Y2FmMDc2MTY5MWY1OWYwMTVlOGRjMjlmZWIzY2ZiZmY4NjkwYzUwZgkwMzZjNTgxYjY4NDlkOGYyMDdjZjlkNzI0NThkOWE3YmUwYTExNzY4MjA2NDIwNzlhMTNjNmYxNmUxODlhNzAyCTE3Mzk0MjI2NzYzMzgJYjAyNmU3ZmMzZDdhOGVkMWVmOWJjYmE1ZGZlMjdjNTg5MmU3YjExN2NlOTUzZWIwY2I4MmE0ZTYyMWZjZTIwOA\u003d\u003d",
     "MDM2YzU4MWI2ODQ5ZDhmMjA3Y2Y5ZDcyNDU4ZDlhN2JlMGExMTc2ODIwNjQyMDc5YTEzYzZmMTZlMTg5YTcwMgllMDQzODJlMGMwYTQ2Y2M4OWM1YmIxZTQ0ZjdlNmFlZDRkNGE5MDEwYWU2MDg3Mzg3ODRmNWY2YmEzYzAzMTQyCTE3Mzk0MjI2NzY2MjkJYjAyNmU3ZmMzZDdhOGVkMWVmOWJjYmE1ZGZlMjdjNTg5MmU3YjExN2NlOTUzZWIwY2I4MmE0ZTYyMWZjZTIwOA\u003d\u003d",
     "ZTA0MzgyZTBjMGE0NmNjODljNWJiMWU0NGY3ZTZhZWQ0ZDRhOTAxMGFlNjA4NzM4Nzg0ZjVmNmJhM2MwMzE0MglmMDMwZjhlZTk1M2EwOTBlNmRhMjhkOTg2NTNhN2RmODQ5M2MxMmJhMGVlNzY2YzExMWFlNjhjYjRjNTY4NWNlCTE3Mzk0MjI3OTU0MDEJZThhNTU3NGI0OTA4Zjg1ZTA5NDI4YWJhNTI3MTE3YzIwNmYwZjc4NDI1NDNlMWE1YWRmNWFlYTQ1NzkxYmE1MA\u003d\u003d",
-    "ZjAzMGY4ZWU5NTNhMDkwZTZkYTI4ZDk4NjUzYTdkZjg0OTNjMTJiYTBlZTc2NmMxMTFhZTY4Y2I0YzU2ODVjZQlkNjE0ZDcyYjBhMjQ0OTE5MDE1MDgyN2I4OTFmMTAyZjkwNzIwN2QwM2JmMzBiZThkYjJlNWQ0NzZiNjQ3YzljCTE3Mzk0MjI3OTU2MzUJZThhNTU3NGI0OTA4Zjg1ZTA5NDI4YWJhNTI3MTE3YzIwNmYwZjc4NDI1NDNlMWE1YWRmNWFlYTQ1NzkxYmE1MA\u003d\u003d"
+    "ZjAzMGY4ZWU5NTNhMDkwZTZkYTI4ZDk4NjUzYTdkZjg0OTNjMTJiYTBlZTc2NmMxMTFhZTY4Y2I0YzU2ODVjZQlkNjE0ZDcyYjBhMjQ0OTE5MDE1MDgyN2I4OTFmMTAyZjkwNzIwN2QwM2JmMzBiZThkYjJlNWQ0NzZiNjQ3YzljCTE3Mzk0MjI3OTU2MzUJZThhNTU3NGI0OTA4Zjg1ZTA5NDI4YWJhNTI3MTE3YzIwNmYwZjc4NDI1NDNlMWE1YWRmNWFlYTQ1NzkxYmE1MA\u003d\u003d",
+    "ZDYxNGQ3MmIwYTI0NDkxOTAxNTA4MjdiODkxZjEwMmY5MDcyMDdkMDNiZjMwYmU4ZGIyZTVkNDc2YjY0N2M5YwkyMTk5ODE2M2NhZDdmNDRmMjM2MmEzZTdiNmY0YmI0YjMzOGUxMGU5MDZhMWE1MjM0ZDA5MWQxNjgxZjk4NDYyCTE3Mzk0MjMyNzE1NTMJZjA4ZjY3YzUyZmZhZmVmZDYxYWQ1NjcxZGVhZTc5YmQyYmYzZDJmYzMyMTBiZmVjOTA1OTZhN2Y5ZTgxMWJkMw\u003d\u003d",
+    "MjE5OTgxNjNjYWQ3ZjQ0ZjIzNjJhM2U3YjZmNGJiNGIzMzhlMTBlOTA2YTFhNTIzNGQwOTFkMTY4MWY5ODQ2Mgk3YmQxNzJiZTViZjQ5MmQ4NmI0NDY5ZGI0NGY4ZGQwMTJjNzQwMDIyMGI5ZDEwODk1ODMwZDc5ZDFkYjI2OWQwCTE3Mzk0MjMyNzE4NTkJZjA4ZjY3YzUyZmZhZmVmZDYxYWQ1NjcxZGVhZTc5YmQyYmYzZDJmYzMyMTBiZmVjOTA1OTZhN2Y5ZTgxMWJkMw\u003d\u003d",
+    "N2JkMTcyYmU1YmY0OTJkODZiNDQ2OWRiNDRmOGRkMDEyYzc0MDAyMjBiOWQxMDg5NTgzMGQ3OWQxZGIyNjlkMAkzODhhNjRkYzVhNjUwYzQ5N2FiZWU2Mzc1MTg0YTYyMTY1ZTZlNTM1N2FiZGZjNzJlOWZiYjFiY2RmNTcyZjk2CTE3Mzk0MjMyNzIwODUJZjA4ZjY3YzUyZmZhZmVmZDYxYWQ1NjcxZGVhZTc5YmQyYmYzZDJmYzMyMTBiZmVjOTA1OTZhN2Y5ZTgxMWJkMw\u003d\u003d",
+    "Mzg4YTY0ZGM1YTY1MGM0OTdhYmVlNjM3NTE4NGE2MjE2NWU2ZTUzNTdhYmRmYzcyZTlmYmIxYmNkZjU3MmY5Ngk0MmY4MTE5ZGI2ZjMxYjFjMGJkNzk1MDFlNDA0MTExYTc0YWVmZWQ3OTFmZmNlNTg4ODg5YjA1MjVjNGRhYWQzCTE3Mzk0MjMyNzIyNjAJZjA4ZjY3YzUyZmZhZmVmZDYxYWQ1NjcxZGVhZTc5YmQyYmYzZDJmYzMyMTBiZmVjOTA1OTZhN2Y5ZTgxMWJkMw\u003d\u003d"
   ]
 }
