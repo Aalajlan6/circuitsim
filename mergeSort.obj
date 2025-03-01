@@ -1,0 +1,205 @@
+LC-3 OBJ FILE
+
+.TEXT
+3000
+23
+2C12
+2C11
+200D
+220D
+54A0
+260C
+1DBF
+7780
+1DBF
+7580
+1DBF
+7380
+1DBF
+7180
+4805
+F025
+4000
+5000
+0004
+F000
+C1C0
+C1C0
+C1C0
+4000
+4
+0005
+0002
+0003
+0001
+5000
+4
+0005
+0002
+0003
+0001
+
+.SYMBOL
+ADDR | EXT | LABEL
+3010 |   0 | ARRAY
+3011 |   0 | BUF
+3012 |   0 | LENGTH
+3013 |   0 | STACK_PTR
+3014 |   0 | MERGESORT
+3015 |   0 | DIVIDE
+3016 |   0 | MERGE
+
+.LINKER_INFO
+
+.DEBUG
+# DEBUG SYMBOLS FOR LC3TOOLS
+
+LABEL     | INDEX
+ARRAY     |  1035
+BUF       |  1059
+LENGTH    |  1083
+STACK_PTR |  1103
+MERGESORT |  1127
+DIVIDE    |  2009
+MERGE     |  2924
+====================
+LINE | ADDR | SOURCE
+   0 | ???? | ;;=============================================================\n
+   1 | ???? | ;; CS 2110 - Spring 2025\n
+   2 | ???? | ;; Homework 4 - Merge Sort\n
+   3 | ???? | ;;=============================================================\n
+   4 | ???? | ;; Name: \n
+   5 | ???? | ;;=============================================================\n
+   6 | ???? | \n
+   7 | ???? | ;;  In this file, you must implement the \'MERGESORT\', \'MERGE\', and \'DIVIDE\' subroutines.\n
+   8 | ???? |     \n
+   9 | ???? | .orig x3000\n
+  10 | ???? |     ;; You do not need to write anything here\n
+  11 | 3000 |     LD R6, STACK_PTR\n
+  12 | ???? | \n
+  13 | ???? |     ;; Pushes arguments (starting address of array to sort,\n
+  14 | ???? |     ;;                   starting address of buffer,\n
+  15 | ???? |     ;;                   lower index to sort,\n
+  16 | ???? |     ;;                   upper index to sort)\n
+  17 | ???? |     ;;=============================================================\n
+  18 | ???? | \n
+  19 | 3001 |     LD R6, STACK_PTR\n
+  20 | 3002 |     LD R0, ARRAY\n
+  21 | 3003 |     LD R1, BUF\n
+  22 | 3004 |     AND R2, R2, 0   ; start = 0\n
+  23 | 3005 |     LD R3, LENGTH   ; end = length\n
+  24 | ???? |     \n
+  25 | 3006 |     ADD R6, R6, -1  ; push args\n
+  26 | 3007 |     STR R3, R6, 0\n
+  27 | 3008 |     ADD R6, R6, -1\n
+  28 | 3009 |     STR R2, R6, 0\n
+  29 | 300A |     ADD R6, R6, -1\n
+  30 | 300B |     STR R1, R6, 0\n
+  31 | 300C |     ADD R6, R6, -1\n
+  32 | 300D |     STR R0, R6, 0\n
+  33 | ???? |     \n
+  34 | 300E |     JSR MERGESORT\n
+  35 | ???? |     \n
+  36 | 300F |     HALT\n
+  37 | ???? |     \n
+  38 | 3010 |     ARRAY   .fill x4000\n
+  39 | 3011 |     BUF     .fill x5000\n
+  40 | 3012 |     LENGTH  .fill 4\n
+  41 | 3013 |     STACK_PTR .fill xF000\n
+  42 | ???? | \n
+  43 | ???? | \n
+  44 | ???? | MERGESORT   ;; Do not change this label! Treat this as like the name of the function in a function header\n
+  45 | ???? |             ;; Code your implementation for the MERGESORT subroutine here!\n
+  46 | ???? | \n
+  47 | ???? | ;; MERGESORT PSEUDOCODE: Pseudocode (see PDF for explanation and examples)   \n
+  48 | ???? | ;; MERGESORT (int[] arr, int[] buf, int start, int end) {\n
+  49 | ???? | ;;      if (start >= end - 1) {\n
+  50 | ???? | ;;        return;\n
+  51 | ???? | ;;      }\n
+  52 | ???? | ;;      mid = DIVIDE(start + end, 2)\n
+  53 | ???? | ;;      MERGESORT(arr, buf, start, mid)\n
+  54 | ???? | ;;      MERGESORT(arr, buf, mid, end)\n
+  55 | ???? | ;;      MERGE(arr, buf, start, mid, end)\n
+  56 | ???? | ;;  }\n
+  57 | ???? |     \n
+  58 | ???? |     \n
+  59 | 3014 |     RET\n
+  60 | ???? |     \n
+  61 | ???? | ;;  DIVIDE Pseudocode (see PDF for explanation and examples)   \n
+  62 | ???? | ;;\n
+  63 | ???? | ;;  DIVIDE(int a, int b)\n
+  64 | ???? | ;;  {\n
+  65 | ???? | ;;      if (b == 0)\n
+  66 | ???? | ;;      {\n
+  67 | ???? | ;;          return 0;\n
+  68 | ???? | ;;      }\n
+  69 | ???? | ;;    \n
+  70 | ???? | ;;      int quotient = 0;\n
+  71 | ???? | ;;      while (a >= b)\n
+  72 | ???? | ;;      {\n
+  73 | ???? | ;;          a -= b;\n
+  74 | ???? | ;;          quotient++;\n
+  75 | ???? | ;;      }\n
+  76 | ???? | ;;    \n
+  77 | ???? | ;;      return quotient;\n
+  78 | ???? | ;;  }\n
+  79 | ???? | \n
+  80 | ???? | DIVIDE  ;; Do not change this label! Treat this this like the name of the function in a function header\n
+  81 | ???? |         ;; Code your implementation for the DIVIDE subroutine here!\n
+  82 | ???? |     \n
+  83 | 3015 |     RET\n
+  84 | ???? | \n
+  85 | ???? | \n
+  86 | ???? | ;;  MERGE Pseudocode (see PDF for explanation and examples)\n
+  87 | ???? | ;;  MERGE(int arr[], int buf[], int start, int mid, int end) {\n
+  88 | ???? | ;;      i = start;\n
+  89 | ???? | ;;      j = mid;\n
+  90 | ???? | ;;      k = start;\n
+  91 | ???? | ;;      while (i < mid && j < end) {\n
+  92 | ???? | ;;          if arr[i] <= arr[j] {\n
+  93 | ???? | ;;              buf[k] = arr[i];\n
+  94 | ???? | ;;              k++;\n
+  95 | ???? | ;;              i++;\n
+  96 | ???? | ;;          } else {\n
+  97 | ???? | ;;              buf[k] = arr[j];\n
+  98 | ???? | ;;              k++;\n
+  99 | ???? | ;;              j++;\n
+ 100 | ???? | ;;          }\n
+ 101 | ???? | ;;      }\n
+ 102 | ???? | ;;      while (i < mid) {\n
+ 103 | ???? | ;;          buf[k] = arr[i];\n
+ 104 | ???? | ;;          k++;\n
+ 105 | ???? | ;;          i++;\n
+ 106 | ???? | ;;      }\n
+ 107 | ???? | ;;      while (j < end) {\n
+ 108 | ???? | ;;          buf[k] = arr[j];\n
+ 109 | ???? | ;;          k++;\n
+ 110 | ???? | ;;          j++;\n
+ 111 | ???? | ;;      }\n
+ 112 | ???? | ;;      for (i = start; i < end; i++) {\n
+ 113 | ???? | ;;          arr[i] = buf[i];\n
+ 114 | ???? | ;;      }\n
+ 115 | ???? | ;;  }\n
+ 116 | ???? | \n
+ 117 | ???? | MERGE   ;; Do not change this label! Treat this as like the name of the function in a function header\n
+ 118 | ???? |         ;; Code your implementation for the MERGE subroutine here!\n
+ 119 | 3016 |     RET\n
+ 120 | ???? | \n
+ 121 | ???? | .end\n
+ 122 | ???? |     \n
+ 123 | ???? | ;; You may change the values in these arrays for debugging. Remember to change the value of LENGTH as well. \n
+ 124 | ???? | .orig x4000\n
+ 125 | 4000 |     .fill 5 \n
+ 126 | 4001 |     .fill 2 \n
+ 127 | 4002 |     .fill 3 \n
+ 128 | 4003 |     .fill 1\n
+ 129 | ???? | .end\n
+ 130 | ???? | \n
+ 131 | ???? | .orig x5000\n
+ 132 | 5000 |     .fill 5 \n
+ 133 | 5001 |     .fill 2 \n
+ 134 | 5002 |     .fill 3 \n
+ 135 | 5003 |     .fill 1\n
+ 136 | ???? | .end\n
+ 137 | ???? | 
+====================
