@@ -1,0 +1,79 @@
+LC-3 OBJ FILE
+
+.TEXT
+3000
+4
+F025
+5000
+4000
+0030
+4000
+1
+????
+5000
+6
+0031
+0031
+0030
+0030
+0031
+0000
+
+.SYMBOL
+ADDR | EXT | LABEL
+3001 |   0 | BINARYSTRING
+3002 |   0 | RESULTADDR
+3003 |   0 | ASCIIDIG
+
+.LINKER_INFO
+
+.DEBUG
+# DEBUG SYMBOLS FOR LC3TOOLS
+
+LABEL        | INDEX
+BINARYSTRING |   716
+RESULTADDR   |   741
+ASCIIDIG     |   764
+====================
+LINE | ADDR | SOURCE
+   0 | ???? | ;;=============================================================\n
+   1 | ???? | ;; CS 2110 - Spring 2025\n
+   2 | ???? | ;; Homework 4 - Binary String to Int \n
+   3 | ???? | ;;=============================================================\n
+   4 | ???? | ;; Name: \n
+   5 | ???? | ;;=============================================================\n
+   6 | ???? | \n
+   7 | ???? | .orig x3000\n
+   8 | ???? | ;; Suggested Pseudocode (see PDF for explanation)\n
+   9 | ???? | ;;\n
+  10 | ???? | ;; int length = 0;\n
+  11 | ???? | ;;  while (BINARYSTRING[length] != 0) {\n
+  12 | ???? | ;;      length++;\n
+  13 | ???? | ;;  }\n
+  14 | ???? | ;;  int result = 0;\n
+  15 | ???? | ;;  for (int i = 0; i < length; i++) {\n
+  16 | ???? | ;;      result = result << 1;\n
+  17 | ???? | ;;      result += BINARYSTRING[i] - 48;\n
+  18 | ???? | ;;  }\n
+  19 | ???? | ;;  mem[mem[RESULTADDR]] = result;\n
+  20 | ???? | \n
+  21 | ???? |     ;; YOUR CODE HERE\n
+  22 | 3000 |     HALT\n
+  23 | ???? | \n
+  24 | ???? | ;; Do not rename or remove any existing labels\n
+  25 | ???? | ;; You may change the value of LENGTH for debugging\n
+  26 | 3001 | BINARYSTRING .fill x5000\n
+  27 | 3002 | RESULTADDR .fill x4000\n
+  28 | 3003 | ASCIIDIG .fill 48\n
+  29 | ???? | .end\n
+  30 | ???? | \n
+  31 | ???? | .orig x4000\n
+  32 | 4000 |     .blkw 1\n
+  33 | ???? | .end\n
+  34 | ???? | \n
+  35 | ???? | ;; You may change the value of the string for debugging\n
+  36 | ???? | .orig x5000\n
+  37 | 5000 |     .stringz \"11001\"\n
+  38 | ???? | .end\n
+  39 | ???? | 
+====================

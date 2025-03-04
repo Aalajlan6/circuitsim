@@ -1,0 +1,98 @@
+LC-3 OBJ FILE
+
+.TEXT
+3000
+18
+5260
+54A0
+14A1
+56E0
+16E3
+200A
+983F
+1902
+0C04
+1483
+16E2
+1261
+0FFB
+2A03
+7340
+F025
+0014
+4000
+4000
+1
+????
+
+.SYMBOL
+ADDR | EXT | LABEL
+3008 |   0 | WHILE
+300D |   0 | END
+3010 |   0 | N
+3011 |   0 | RESULT
+
+.LINKER_INFO
+
+.DEBUG
+# DEBUG SYMBOLS FOR LC3TOOLS
+
+LABEL  | INDEX
+WHILE  |   794
+END    |   879
+N      |  1025
+RESULT |  1036
+====================
+LINE | ADDR | SOURCE
+   0 | ???? | ;;=============================================================\n
+   1 | ???? | ;; CS 2110 - Spring 2025\n
+   2 | ???? | ;; Homework 4 - Integer Square Root\n
+   3 | ???? | ;;=============================================================\n
+   4 | ???? | ;; Name: Abdulaziz Alajlan\n
+   5 | ???? | ;;=============================================================\n
+   6 | ???? | \n
+   7 | ???? | \n
+   8 | ???? | ;; Suggested Pseudocode (see PDF for explanation)\n
+   9 | ???? | ;;\n
+  10 | ???? | ;;  int L = 0;\n
+  11 | ???? | ;;  int a = 1;\n
+  12 | ???? | ;;  int d = 3;\n
+  13 | ???? | ;;\n
+  14 | ???? | ;;  while (a <= N) {\n
+  15 | ???? | ;;      a = a + d;  // Compute the next perfect square\n
+  16 | ???? | ;;      d = d + 2;  // Increase the difference between squares\n
+  17 | ???? | ;;      L = L + 1;  // Increment L\n
+  18 | ???? | ;;  }\n
+  19 | ???? | ;;\n
+  20 | ???? | ;;  mem[mem[RESULT]] = L;\n
+  21 | ???? |     \n
+  22 | ???? | .orig x3000\n
+  23 | 3000 |     AND R1, R1, #0; L = 0\n
+  24 | 3001 |     AND R2, R2, #0; a = 0\n
+  25 | 3002 |     ADD R2, R2, #1; a = 1\n
+  26 | 3003 |     AND R3, R3, #0; d = 0\n
+  27 | 3004 |     ADD R3, R3, #3; d = 3\n
+  28 | 3005 |     LD R0, N; R0 = N\n
+  29 | 3006 |     NOT R4, R0\n
+  30 | 3007 |     ADD R4, R4, R2\n
+  31 | 3008 | WHILE BRnz END\n
+  32 | 3009 |     ADD R2, R2, R3\n
+  33 | 300A |     ADD R3, R3, #2\n
+  34 | 300B |     ADD R1, R1, #1\n
+  35 | 300C |     BR WHILE\n
+  36 | 300D | END LD R5, RESULT\n
+  37 | 300E |     STR R1, R5, #0\n
+  38 | ???? |     \n
+  39 | 300F |     HALT\n
+  40 | ???? | \n
+  41 | ???? | ;; Do not rename or remove any existing labels\n
+  42 | ???? | ;; You may change the value of N for debugging\n
+  43 | 3010 | N .fill 20\n
+  44 | 3011 | RESULT .fill x4000\n
+  45 | ???? | .end\n
+  46 | ???? | \n
+  47 | ???? | .orig x4000\n
+  48 | 4000 |     .blkw 1\n
+  49 | ???? | .end\n
+  50 | ???? | 
+====================

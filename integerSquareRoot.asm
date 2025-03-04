@@ -2,7 +2,7 @@
 ;; CS 2110 - Spring 2025
 ;; Homework 4 - Integer Square Root
 ;;=============================================================
-;; Name: 
+;; Name: Abdulaziz Alajlan
 ;;=============================================================
 
 
@@ -21,7 +21,22 @@
 ;;  mem[mem[RESULT]] = L;
     
 .orig x3000
-    ;; YOUR CODE HERE
+    AND R1, R1, #0; L = 0
+    AND R2, R2, #0; a = 0
+    ADD R2, R2, #1; a = 1
+    AND R3, R3, #0; d = 0
+    ADD R3, R3, #3; d = 3
+    LD R0, N; R0 = N
+    NOT R4, R0
+    ADD R4, R4, R2
+WHILE BRnz END
+    ADD R2, R2, R3
+    ADD R3, R3, #2
+    ADD R1, R1, #1
+    BR WHILE
+END LD R5, RESULT
+    STR R1, R5, #0
+    
     HALT
 
 ;; Do not rename or remove any existing labels
