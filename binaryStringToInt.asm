@@ -21,6 +21,7 @@
 
     AND R0, R0, #0; R0 = 0
     LD R1, BINARYSTRING; R1 = start
+    ADD R6, R1, #0
 WHILE ;We haven't hit a null operator
     LDR R2, R1, #0; R2 = mem[R1]
     BRz END_LEN; If char is null terminator, skip
