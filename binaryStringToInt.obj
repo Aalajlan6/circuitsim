@@ -2,7 +2,33 @@ LC-3 OBJ FILE
 
 .TEXT
 3000
-4
+30
+5020
+2219
+6440
+0403
+1021
+1261
+0FFB
+54A0
+56E0
+18E0
+9A3F
+1905
+1921
+060A
+1482
+1F83
+6BC0
+2E0B
+9FFF
+1B47
+1B61
+1485
+16E1
+0FF1
+2803
+7500
 F025
 5000
 4000
@@ -21,9 +47,13 @@ F025
 
 .SYMBOL
 ADDR | EXT | LABEL
-3001 |   0 | BINARYSTRING
-3002 |   0 | RESULTADDR
-3003 |   0 | ASCIIDIG
+3002 |   0 | WHILE
+3007 |   0 | END_LEN
+3009 |   0 | FOR
+3018 |   0 | END
+301B |   0 | BINARYSTRING
+301C |   0 | RESULTADDR
+301D |   0 | ASCIIDIG
 
 .LINKER_INFO
 
@@ -31,9 +61,13 @@ ADDR | EXT | LABEL
 # DEBUG SYMBOLS FOR LC3TOOLS
 
 LABEL        | INDEX
-BINARYSTRING |   716
-RESULTADDR   |   741
-ASCIIDIG     |   764
+WHILE        |   648
+END_LEN      |   848
+FOR          |   919
+END          |  1234
+BINARYSTRING |  1384
+RESULTADDR   |  1409
+ASCIIDIG     |  1432
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -57,23 +91,55 @@ LINE | ADDR | SOURCE
   18 | ???? | ;;  }\n
   19 | ???? | ;;  mem[mem[RESULTADDR]] = result;\n
   20 | ???? | \n
-  21 | ???? |     ;; YOUR CODE HERE\n
-  22 | 3000 |     HALT\n
-  23 | ???? | \n
-  24 | ???? | ;; Do not rename or remove any existing labels\n
-  25 | ???? | ;; You may change the value of LENGTH for debugging\n
-  26 | 3001 | BINARYSTRING .fill x5000\n
-  27 | 3002 | RESULTADDR .fill x4000\n
-  28 | 3003 | ASCIIDIG .fill 48\n
-  29 | ???? | .end\n
-  30 | ???? | \n
-  31 | ???? | .orig x4000\n
-  32 | 4000 |     .blkw 1\n
-  33 | ???? | .end\n
-  34 | ???? | \n
-  35 | ???? | ;; You may change the value of the string for debugging\n
-  36 | ???? | .orig x5000\n
-  37 | 5000 |     .stringz \"11001\"\n
-  38 | ???? | .end\n
-  39 | ???? | 
+  21 | 3000 |     AND R0, R0, #0; R0 = 0\n
+  22 | 3001 |     LD R1, BINARYSTRING; R1 = start\n
+  23 | ???? | WHILE ;We haven\'t hit a null operator\n
+  24 | 3002 |     LDR R2, R1, #0; R2 = mem[R1]\n
+  25 | 3003 |     BRz END_LEN; If char is null terminator, skip\n
+  26 | ???? |     \n
+  27 | 3004 |     ADD R0, R0, #1; Increment length\n
+  28 | 3005 |     ADD R1, R1, #1\n
+  29 | 3006 |     BR WHILE\n
+  30 | ???? |     \n
+  31 | ???? | END_LEN \n
+  32 | 3007 |     AND R2, R2, #0; result = 0\n
+  33 | 3008 |     AND R3, R3, #0; i = 0\n
+  34 | ???? |     \n
+  35 | 3009 | FOR ADD R4, R3, #0\n
+  36 | 300A |     NOT R5, R0\n
+  37 | 300B |     ADD R4, R4, R5\n
+  38 | 300C |     ADD R4, R4, #1; R4 = i - len\n
+  39 | 300D |     BRzp END\n
+  40 | 300E |     ADD R2, R2, R2; result = result << 1\n
+  41 | ???? |     \n
+  42 | 300F |     ADD R7, R6, R3\n
+  43 | 3010 |     LDR R5, R7, #0\n
+  44 | 3011 |     LD R7, ASCIIDIG\n
+  45 | 3012 |     NOT R7, R7\n
+  46 | 3013 |     ADD R5, R5, R7\n
+  47 | 3014 |     ADD R5, R5, #1\n
+  48 | 3015 |     ADD R2, R2, R5\n
+  49 | ???? |     \n
+  50 | 3016 |     ADD R3, R3, #1; i++\n
+  51 | 3017 |     BR FOR\n
+  52 | 3018 | END LD R4, RESULTADDR\n
+  53 | 3019 |     STR R2, R4, #0\n
+  54 | 301A |     HALT\n
+  55 | ???? | \n
+  56 | ???? | ;; Do not rename or remove any existing labels\n
+  57 | ???? | ;; You may change the value of LENGTH for debugging\n
+  58 | 301B | BINARYSTRING .fill x5000\n
+  59 | 301C | RESULTADDR .fill x4000\n
+  60 | 301D | ASCIIDIG .fill 48\n
+  61 | ???? | .end\n
+  62 | ???? | \n
+  63 | ???? | .orig x4000\n
+  64 | 4000 |     .blkw 1\n
+  65 | ???? | .end\n
+  66 | ???? | \n
+  67 | ???? | ;; You may change the value of the string for debugging\n
+  68 | ???? | .orig x5000\n
+  69 | 5000 |     .stringz \"11001\"\n
+  70 | ???? | .end\n
+  71 | ???? | 
 ====================

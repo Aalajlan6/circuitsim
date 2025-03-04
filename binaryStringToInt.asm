@@ -19,7 +19,39 @@
 ;;  }
 ;;  mem[mem[RESULTADDR]] = result;
 
-    ;; YOUR CODE HERE
+    AND R0, R0, #0; R0 = 0
+    LD R1, BINARYSTRING; R1 = start
+WHILE ;We haven't hit a null operator
+    LDR R2, R1, #0; R2 = mem[R1]
+    BRz END_LEN; If char is null terminator, skip
+    
+    ADD R0, R0, #1; Increment length
+    ADD R1, R1, #1
+    BR WHILE
+    
+END_LEN 
+    AND R2, R2, #0; result = 0
+    AND R3, R3, #0; i = 0
+    
+FOR ADD R4, R3, #0
+    NOT R5, R0
+    ADD R4, R4, R5
+    ADD R4, R4, #1; R4 = i - len
+    BRzp END
+    ADD R2, R2, R2; result = result << 1
+    
+    ADD R7, R6, R3
+    LDR R5, R7, #0
+    LD R7, ASCIIDIG
+    NOT R7, R7
+    ADD R5, R5, R7
+    ADD R5, R5, #1
+    ADD R2, R2, R5
+    
+    ADD R3, R3, #1; i++
+    BR FOR
+END LD R4, RESULTADDR
+    STR R2, R4, #0
     HALT
 
 ;; Do not rename or remove any existing labels
