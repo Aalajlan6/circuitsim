@@ -2,20 +2,22 @@ LC-3 OBJ FILE
 
 .TEXT
 3000
-18
+20
 5260
 54A0
 14A1
 56E0
 16E3
-200A
-983F
-1902
-0C04
+200C
+18A0
+9A3F
+1905
+1921
+0204
 1483
 16E2
 1261
-0FFB
+0FF7
 2A03
 7340
 F025
@@ -27,10 +29,10 @@ F025
 
 .SYMBOL
 ADDR | EXT | LABEL
-3008 |   0 | WHILE
-300D |   0 | END
-3010 |   0 | N
-3011 |   0 | RESULT
+3006 |   0 | WHILE
+300F |   0 | END
+3012 |   0 | N
+3013 |   0 | RESULT
 
 .LINKER_INFO
 
@@ -38,10 +40,10 @@ ADDR | EXT | LABEL
 # DEBUG SYMBOLS FOR LC3TOOLS
 
 LABEL  | INDEX
-WHILE  |   794
-END    |   879
-N      |  1025
-RESULT |  1036
+WHILE  |   760
+END    |  1057
+N      |  1198
+RESULT |  1209
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -73,26 +75,31 @@ LINE | ADDR | SOURCE
   26 | 3003 |     AND R3, R3, #0; d = 0\n
   27 | 3004 |     ADD R3, R3, #3; d = 3\n
   28 | 3005 |     LD R0, N; R0 = N\n
-  29 | 3006 |     NOT R4, R0\n
-  30 | 3007 |     ADD R4, R4, R2\n
-  31 | 3008 | WHILE BRnz END\n
-  32 | 3009 |     ADD R2, R2, R3\n
-  33 | 300A |     ADD R3, R3, #2\n
-  34 | 300B |     ADD R1, R1, #1\n
-  35 | 300C |     BR WHILE\n
-  36 | 300D | END LD R5, RESULT\n
-  37 | 300E |     STR R1, R5, #0\n
-  38 | ???? |     \n
-  39 | 300F |     HALT\n
-  40 | ???? | \n
-  41 | ???? | ;; Do not rename or remove any existing labels\n
-  42 | ???? | ;; You may change the value of N for debugging\n
-  43 | 3010 | N .fill 20\n
-  44 | 3011 | RESULT .fill x4000\n
-  45 | ???? | .end\n
-  46 | ???? | \n
-  47 | ???? | .orig x4000\n
-  48 | 4000 |     .blkw 1\n
-  49 | ???? | .end\n
-  50 | ???? | 
+  29 | ???? | WHILE\n
+  30 | 3006 |     ADD R4, R2, #0; R4 = a\n
+  31 | 3007 |     NOT R5, R0    ; R5 = NOT N\n
+  32 | 3008 |     ADD R4, R4, R5; R4 = R4 + NOT N\n
+  33 | 3009 |     ADD R4, R4, #1; R4 = a - N\n
+  34 | 300A |     BRp END; if a - N > 0, exit loop\n
+  35 | ???? |     \n
+  36 | ???? |     ;OTHERWISE:\n
+  37 | 300B |     ADD R2, R2, R3 ;a = a + d\n
+  38 | 300C |     ADD R3, R3, #2 ;d = d + 2\n
+  39 | 300D |     ADD R1, R1, #1 ;L = L + 1\n
+  40 | 300E |     BR WHILE\n
+  41 | ???? |     \n
+  42 | 300F | END LD R5, RESULT\n
+  43 | 3010 |     STR R1, R5, #0\n
+  44 | 3011 |     HALT\n
+  45 | ???? | \n
+  46 | ???? | ;; Do not rename or remove any existing labels\n
+  47 | ???? | ;; You may change the value of N for debugging\n
+  48 | 3012 | N .fill 20\n
+  49 | 3013 | RESULT .fill x4000\n
+  50 | ???? | .end\n
+  51 | ???? | \n
+  52 | ???? | .orig x4000\n
+  53 | 4000 |     .blkw 1\n
+  54 | ???? | .end\n
+  55 | ???? | 
 ====================
