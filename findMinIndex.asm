@@ -21,7 +21,6 @@
     AND R0, R0, #0; min index
     LD R6, ARRAY
     LDR R1, R6, #0; min value
-    AND R2, R2, #0; i
     AND R3, R3, #0
     ADD R3, R3, #1; i = 1
     LD R4, LENGTH
