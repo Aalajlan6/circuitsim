@@ -40,8 +40,26 @@ LEN_WHILE
     AND R4, R4, #0; START
     ADD R5, R0, #0; R5 = length
     ADD R5, R5, #-1; R5--
-
-    HALT
+OTHERWAY
+    ADD R6, R4, #0
+    NOT R7, R5
+    ADD R6, R6, R7
+    ADD R6, R6, #1
+    BRzp DONE
+    
+    ADD R2, R1, R4
+    ADD R3, R1, R5
+    
+    LDR R6, R2, #0; temp = STRING[start]
+    LDR R7, R3, #0; R7 = STRING[end]
+    STR R7, R2, #0; STRING[start] = R7
+    STR R6, R3, #0; STRING[end] = temp
+    
+    ADD R4, R4, #1
+    ADD R5, R5, #-1
+    
+    BR OTHERWAY
+DONE    HALT
 
 ;; Do not rename or remove any existing labels
 ;; You may change the value of LENGTH for debugging
