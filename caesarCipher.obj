@@ -1,0 +1,163 @@
+LC-3 OBJ FILE
+
+.TEXT
+3000
+40
+2C09
+1DBF
+2008
+7180
+1DBF
+2006
+7180
+4815
+1DA2
+F025
+F000
+4000
+0005
+001A
+1DBF
+7F80
+1DBF
+7B80
+6184
+6385
+1601
+0602
+103F
+0FFC
+7143
+1DA1
+6F80
+1DA1
+C1C0
+1DBF
+7F80
+6184
+6385
+1620
+0402
+1021
+0FFC
+6F80
+1DA1
+C1C0
+4000
+6
+0068
+0065
+006C
+006C
+006F
+0000
+
+.SYMBOL
+ADDR | EXT | LABEL
+300A |   0 | STACK_PTR
+300B |   0 | STRING
+300C |   0 | SHIFT
+300D |   0 | ALPHA
+300E |   0 | MOD
+3014 |   0 | LOOP
+3018 |   0 | END
+301D |   0 | ENCRYPT
+3021 |   0 | LENGTH
+3025 |   0 | DONE
+
+.LINKER_INFO
+
+.DEBUG
+# DEBUG SYMBOLS FOR LC3TOOLS
+
+LABEL     | INDEX
+STACK_PTR |   562
+STRING    |   584
+SHIFT     |   606
+ALPHA     |   624
+MOD       |   644
+LOOP      |   780
+END       |   859
+ENCRYPT   |   958
+LENGTH    |  1060
+DONE      |  1148
+====================
+LINE | ADDR | SOURCE
+   0 | ???? | ;;=============================================================\n
+   1 | ???? | ;; CS 2110 - Spring 2025\n
+   2 | ???? | ;; Homework 4 - Caesar Cipher\n
+   3 | ???? | ;;=============================================================\n
+   4 | ???? | ;; Name: Abdulaziz Alajlan\n
+   5 | ???? | ;;=============================================================\n
+   6 | ???? | \n
+   7 | ???? | ;;  In this file, you must implement the \'MOD\' and \'ENCRYPT\' subroutines.\n
+   8 | ???? |     \n
+   9 | ???? | .orig x3000\n
+  10 | ???? | \n
+  11 | 3000 |     LD R6, STACK_PTR\n
+  12 | ???? |     \n
+  13 | 3001 |     ADD R6, R6, -1\n
+  14 | 3002 |     LD R0, STRING\n
+  15 | 3003 |     STR R0, R6, 0\n
+  16 | ???? |     \n
+  17 | 3004 |     ADD R6, R6, -1\n
+  18 | 3005 |     LD R0, SHIFT\n
+  19 | 3006 |     STR R0, R6, 0\n
+  20 | ???? |     \n
+  21 | 3007 |     JSR ENCRYPT \n
+  22 | ???? |     \n
+  23 | 3008 |     ADD R6, R6, 2\n
+  24 | 3009 |     HALT\n
+  25 | ???? | \n
+  26 | 300A | STACK_PTR .fill xF000\n
+  27 | 300B | STRING    .fill x4000\n
+  28 | 300C | SHIFT     .fill 5\n
+  29 | 300D | ALPHA     .fill 26\n
+  30 | ???? | \n
+  31 | ???? | MOD  \n
+  32 | 300E |     ADD R6, R6, -1 \n
+  33 | 300F |     STR R7, R6, 0  \n
+  34 | 3010 |     ADD R6, R6, -1  \n
+  35 | 3011 |     STR R5, R6, 0  \n
+  36 | ???? |     \n
+  37 | 3012 |     LDR R0, R6, #4\n
+  38 | 3013 |     LDR R1, R6, #5 \n
+  39 | ???? |     \n
+  40 | ???? | LOOP:\n
+  41 | 3014 |     ADD R3, R0, R1  \n
+  42 | 3015 |     BRzp END  \n
+  43 | 3016 |     ADD R0, R0, #-1  \n
+  44 | 3017 |     BR LOOP  \n
+  45 | ???? | \n
+  46 | ???? | END:  \n
+  47 | 3018 |     STR R0, R5, #3  \n
+  48 | 3019 |     ADD R6, R6, 1  \n
+  49 | 301A |     LDR R7, R6, 0  \n
+  50 | 301B |     ADD R6, R6, 1  \n
+  51 | 301C |     RET  \n
+  52 | ???? | \n
+  53 | ???? | ENCRYPT \n
+  54 | 301D |     ADD R6, R6, -1  \n
+  55 | 301E |     STR R7, R6, 0  \n
+  56 | ???? |     \n
+  57 | 301F |     LDR R0, R6, #4  \n
+  58 | 3020 |     LDR R1, R6, #5  \n
+  59 | ???? |     \n
+  60 | ???? | LENGTH:  \n
+  61 | 3021 |     ADD R3, R0, #0  \n
+  62 | 3022 |     BRz DONE  \n
+  63 | 3023 |     ADD R0, R0, #1  \n
+  64 | 3024 |     BR LENGTH  \n
+  65 | ???? |     \n
+  66 | ???? | DONE:\n
+  67 | 3025 |     LDR R7, R6, 0  \n
+  68 | 3026 |     ADD R6, R6, 1  \n
+  69 | 3027 |     RET  \n
+  70 | ???? | \n
+  71 | ???? | .end\n
+  72 | ???? | \n
+  73 | ???? | .orig x4000\n
+  74 | 4000 |     .stringz \"hello\"\n
+  75 | ???? | .end\n
+  76 | ???? | 
+====================
