@@ -2,7 +2,7 @@
 ;; CS 2110 - Spring 2025
 ;; Homework 4 - Reverse String 
 ;;=============================================================
-;; Name: 
+;; Name: Abdulaziz Alajlan
 ;;=============================================================
 
 .orig x3000
@@ -26,7 +26,21 @@
 ;;      end--;
 ;;}
 
-    ;; YOUR CODE HERE
+    AND R0, R0, #0; length = 0
+    LD R1, STRING; Base pointer
+    ADD R2, R1, #0; Rest of string pointer
+WHILE
+    LDR R3, R2, #0; R3 = mem[R2] current char
+    BRz LEN_WHILE
+    ADD R0, R0, #1; length++
+    ADD R1, R1, #1; pointer++
+    BR WHILE
+LEN_WHILE
+;R0 = length
+    AND R4, R4, #0; START
+    ADD R5, R0, #0; R5 = length
+    ADD R5, R5, #-1; R5--
+
     HALT
 
 ;; Do not rename or remove any existing labels
