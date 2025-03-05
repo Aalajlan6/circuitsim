@@ -18,7 +18,38 @@
 ;;  }
 ;;  mem[mem[RESULT]] = minIndex;
     
-    ;; YOUR CODE HERE
+    AND R0, R0, #0; min index
+    LD R6, ARRAY
+    LDR R1, R6, #0; min value
+    AND R2, R2, #0; i
+    AND R3, R3, #0
+    ADD R3, R3, #1; i = 1
+    LD R4, LENGTH
+    NOT R4, R4
+    ADD R4, R4, #1
+FOR 
+    ADD R5, R3, R4
+    BRzp END
+    ADD R7, R6, R3
+    LDR R7, R7, #0
+    
+    ADD R5, R7, #0
+    NOT R1, R1
+    ADD R5, R5, R1
+    ADD R5, R5, #1
+    NOT R1, R1
+    
+    BRzp SKIP
+    ADD R1, R7, #0
+    ADD R0, R3, #0
+SKIP
+    ADD R3, R3, #1
+    BR FOR
+END
+    LD R7, RESULT
+    STR R0, R7, #0
+
+    
     HALT
 
 ;; Do not rename or remove any existing labels
