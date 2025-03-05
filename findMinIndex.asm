@@ -6,53 +6,44 @@
 ;;=============================================================
 
 .orig x3000
-;; Suggested Pseudocode (see PDF for explanation)
-;;
-;;  int minIndex = 0;
-;;  int minValue = ARRAY[0];
-;;  for (int i = 1; i < LENGTH; i++) {
-;;      if (ARRAY[i] < minValue) {
-;;          minValue = ARRAY[i];
-;;          minIndex = i;
-;;      }
-;;  }
-;;  mem[mem[RESULT]] = minIndex;
-    
-    AND R0, R0, #0; min index
-    LD  R6, ARRAY
-    LDR R1, R6, #0
-    AND R3, R3, #0
-    ADD R3, R3, #1; i = 1
-    LD R4, LENGTH
-    NOT R4, R4
-    ADD R4, R4, #1
-FOR 
-    ADD R5, R3, R4
-    BRzp END
-    ADD R7, R6, R3
-    LDR R7, R7, #0
-    
-    ADD R5, R7, #0
-    NOT R1, R1
-    ADD R5, R5, R1
-    ADD R5, R5, #1
-    NOT R1, R1
-    
-    BRzp SKIP
-    ADD R1, R7, #0
-    ADD R0, R3, #0
-SKIP
-    ADD R3, R3, #1
-    BR FOR
-END
-    LD R7, RESULT
-    STR R0, R7, #0
 
-    
+SETUP
+    AND R4, R4, #0  ;; R4 = 0
+    LD R2, ARRAY  
+    ADD R5, R2, #0  ;; R5 = ARRAY address
+    LDR R6, R5, #0  ;; R6 = ARRAY[0]
+    AND R7, R7, #0  
+    ADD R7, R7, #1  ;; R7 = 1
+    LD R1, LENGTH   ;; R1 = LENGTH
+
+LOOP
+    NOT R3, R1
+    ADD R3, R3, #1  
+    ADD R3, R7, R3  ;; R3 = i - LENGTH
+    BRzp END_LOOP   ;; if (i >= LENGTH), exit loop
+    ADD R0, R5, R7  
+    LDR R0, R0, #0  ;; R0 = ARRAY[i]
+
+CHECK
+    NOT R6, R6
+    ADD R6, R6, #1
+    ADD R6, R0, R6  ;; ARRAY[i] - minValue
+    BRn UPDATE      ;; if ARRAY[i] < minValue, update
+
+NEXT
+    ADD R7, R7, #1  ;; i++
+    BRnzp LOOP
+
+UPDATE
+    ADD R6, R0, #0  ;; minValue = ARRAY[i]
+    ADD R4, R7, #0  ;; minIndex = i
+    BRnzp NEXT
+
+END_LOOP
+    LD R3, RESULT  
+    STR R4, R3, #0  ;; Store result
     HALT
 
-;; Do not rename or remove any existing labels
-;; You may change the value of LENGTH for debugging
 RESULT .fill x4000
 ARRAY .fill x5000
 LENGTH .fill 5
@@ -62,7 +53,6 @@ LENGTH .fill 5
     ANSWER .blkw 1
 .end
 
-;; You may change these values for debuggin
 .orig x5000
     .fill -1
     .fill 2 
