@@ -9,7 +9,7 @@ LC-3 OBJ FILE
 6680
 0403
 1021
-1261
+14A1
 0FFB
 5920
 1A20
@@ -57,7 +57,7 @@ WHILE     |   736
 LEN_WHILE |   878
 OTHERWAY  |   985
 DONE      |  1349
-STRING    |  1462
+STRING    |  1467
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -95,7 +95,7 @@ LINE | ADDR | SOURCE
   32 | 3003 |     LDR R3, R2, #0; R3 = mem[R2] current char\n
   33 | 3004 |     BRz LEN_WHILE\n
   34 | 3005 |     ADD R0, R0, #1; length++\n
-  35 | 3006 |     ADD R1, R1, #1; pointer++\n
+  35 | 3006 |     ADD R2, R2, #1; pointer++\n
   36 | 3007 |     BR WHILE\n
   37 | ???? | LEN_WHILE\n
   38 | ???? | ;R0 = length\n
@@ -121,16 +121,17 @@ LINE | ADDR | SOURCE
   58 | 3017 |     ADD R5, R5, #-1\n
   59 | ???? |     \n
   60 | 3018 |     BR OTHERWAY\n
-  61 | 3019 | DONE    HALT\n
-  62 | ???? | \n
-  63 | ???? | ;; Do not rename or remove any existing labels\n
-  64 | ???? | ;; You may change the value of LENGTH for debugging\n
-  65 | 301A | STRING .fill x4000\n
-  66 | ???? | .end\n
-  67 | ???? | \n
-  68 | ???? | ;; You may change the value of the string for debugging\n
-  69 | ???? | .orig x4000\n
-  70 | 4000 |     .stringz \"hello\"\n
-  71 | ???? | .end\n
-  72 | ???? | 
+  61 | ???? | DONE    \n
+  62 | 3019 |     HALT\n
+  63 | ???? | \n
+  64 | ???? | ;; Do not rename or remove any existing labels\n
+  65 | ???? | ;; You may change the value of LENGTH for debugging\n
+  66 | 301A | STRING .fill x4000\n
+  67 | ???? | .end\n
+  68 | ???? | \n
+  69 | ???? | ;; You may change the value of the string for debugging\n
+  70 | ???? | .orig x4000\n
+  71 | 4000 |     .stringz \"hello\"\n
+  72 | ???? | .end\n
+  73 | ???? | 
 ====================

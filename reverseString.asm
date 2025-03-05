@@ -33,7 +33,7 @@ WHILE
     LDR R3, R2, #0; R3 = mem[R2] current char
     BRz LEN_WHILE
     ADD R0, R0, #1; length++
-    ADD R1, R1, #1; pointer++
+    ADD R2, R2, #1; pointer++
     BR WHILE
 LEN_WHILE
 ;R0 = length
@@ -59,7 +59,8 @@ OTHERWAY
     ADD R5, R5, #-1
     
     BR OTHERWAY
-DONE    HALT
+DONE    
+    HALT
 
 ;; Do not rename or remove any existing labels
 ;; You may change the value of LENGTH for debugging
