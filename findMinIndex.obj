@@ -4,7 +4,7 @@ LC-3 OBJ FILE
 3000
 28
 5020
-EC18
+2C18
 6380
 56E0
 16E1
@@ -58,20 +58,20 @@ ADDR | EXT | LABEL
 # DEBUG SYMBOLS FOR LC3TOOLS
 
 LABEL  | INDEX
-FOR    |   737
-SKIP   |   961
-END    |   996
-RESULT |  1152
-ARRAY  |  1171
-LENGTH |  1189
-ANSWER |  1226
+FOR    |   743
+SKIP   |   967
+END    |  1002
+RESULT |  1158
+ARRAY  |  1177
+LENGTH |  1195
+ANSWER |  1232
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
    1 | ???? | ;; CS 2110 - Spring 2025\n
    2 | ???? | ;; Homework 4 - Find Min Index\n
    3 | ???? | ;;=============================================================\n
-   4 | ???? | ;; Name: \n
+   4 | ???? | ;; Name: Abdulaziz Alajlan\n
    5 | ???? | ;;=============================================================\n
    6 | ???? | \n
    7 | ???? | .orig x3000\n
@@ -88,8 +88,8 @@ LINE | ADDR | SOURCE
   18 | ???? | ;;  mem[mem[RESULT]] = minIndex;\n
   19 | ???? |     \n
   20 | 3000 |     AND R0, R0, #0; min index\n
-  21 | 3001 |     LEA R6, ARRAY\n
-  22 | 3002 |     LDR R1, R6, #0; min value\n
+  21 | 3001 |     LD  R6, ARRAY\n
+  22 | 3002 |     LDR R1, R6, #0\n
   23 | 3003 |     AND R3, R3, #0\n
   24 | 3004 |     ADD R3, R3, #1; i = 1\n
   25 | 3005 |     LD R4, LENGTH\n

@@ -2,7 +2,7 @@
 ;; CS 2110 - Spring 2025
 ;; Homework 4 - Find Min Index
 ;;=============================================================
-;; Name: 
+;; Name: Abdulaziz Alajlan
 ;;=============================================================
 
 .orig x3000
@@ -19,8 +19,8 @@
 ;;  mem[mem[RESULT]] = minIndex;
     
     AND R0, R0, #0; min index
-    LEA R6, ARRAY
-    LDR R1, R6, #0; min value
+    LD  R6, ARRAY
+    LDR R1, R6, #0
     AND R3, R3, #0
     ADD R3, R3, #1; i = 1
     LD R4, LENGTH
