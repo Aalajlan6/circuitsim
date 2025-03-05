@@ -19,12 +19,13 @@
 ;;  mem[mem[RESULT]] = minIndex;
     
     AND R0, R0, #0; min index
-    LD R6, ARRAY
+    LEA R6, ARRAY
     LDR R1, R6, #0; min value
     AND R3, R3, #0
     ADD R3, R3, #1; i = 1
     LD R4, LENGTH
     NOT R4, R4
+    ADD R4, R4, #1
 FOR 
     ADD R5, R3, R4
     BRzp END
