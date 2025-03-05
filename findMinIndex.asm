@@ -25,7 +25,6 @@
     ADD R3, R3, #1; i = 1
     LD R4, LENGTH
     NOT R4, R4
-    ADD R4, R4, #1
 FOR 
     ADD R5, R3, R4
     BRzp END

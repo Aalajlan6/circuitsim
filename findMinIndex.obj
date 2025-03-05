@@ -2,15 +2,14 @@ LC-3 OBJ FILE
 
 .TEXT
 3000
-28
+27
 5020
-2C18
+2C17
 6380
 56E0
 16E1
-2815
+2814
 993F
-1921
 1AC4
 060C
 1F83
@@ -44,12 +43,12 @@ FFF8
 
 .SYMBOL
 ADDR | EXT | LABEL
-3008 |   0 | FOR
-3014 |   0 | SKIP
-3016 |   0 | END
-3019 |   0 | RESULT
-301A |   0 | ARRAY
-301B |   0 | LENGTH
+3007 |   0 | FOR
+3013 |   0 | SKIP
+3015 |   0 | END
+3018 |   0 | RESULT
+3019 |   0 | ARRAY
+301A |   0 | LENGTH
 4000 |   0 | ANSWER
 
 .LINKER_INFO
@@ -58,13 +57,13 @@ ADDR | EXT | LABEL
 # DEBUG SYMBOLS FOR LC3TOOLS
 
 LABEL  | INDEX
-FOR    |   736
-SKIP   |   960
-END    |   995
-RESULT |  1151
-ARRAY  |  1170
-LENGTH |  1188
-ANSWER |  1225
+FOR    |   717
+SKIP   |   941
+END    |   976
+RESULT |  1132
+ARRAY  |  1151
+LENGTH |  1169
+ANSWER |  1206
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -94,50 +93,49 @@ LINE | ADDR | SOURCE
   24 | 3004 |     ADD R3, R3, #1; i = 1\n
   25 | 3005 |     LD R4, LENGTH\n
   26 | 3006 |     NOT R4, R4\n
-  27 | 3007 |     ADD R4, R4, #1\n
-  28 | ???? | FOR \n
-  29 | 3008 |     ADD R5, R3, R4\n
-  30 | 3009 |     BRzp END\n
-  31 | 300A |     ADD R7, R6, R3\n
-  32 | 300B |     LDR R7, R7, #0\n
-  33 | ???? |     \n
-  34 | 300C |     ADD R5, R7, #0\n
-  35 | 300D |     NOT R1, R1\n
-  36 | 300E |     ADD R5, R5, R1\n
-  37 | 300F |     ADD R5, R5, #1\n
-  38 | 3010 |     NOT R1, R1\n
-  39 | ???? |     \n
-  40 | 3011 |     BRzp SKIP\n
-  41 | 3012 |     ADD R1, R7, #0\n
-  42 | 3013 |     ADD R0, R3, #0\n
-  43 | ???? | SKIP\n
-  44 | 3014 |     ADD R3, R3, #1\n
-  45 | 3015 |     BR FOR\n
-  46 | ???? | END\n
-  47 | 3016 |     LD R7, RESULT\n
-  48 | 3017 |     STR R0, R7, #0\n
-  49 | ???? | \n
-  50 | ???? |     \n
-  51 | 3018 |     HALT\n
-  52 | ???? | \n
-  53 | ???? | ;; Do not rename or remove any existing labels\n
-  54 | ???? | ;; You may change the value of LENGTH for debugging\n
-  55 | 3019 | RESULT .fill x4000\n
-  56 | 301A | ARRAY .fill x5000\n
-  57 | 301B | LENGTH .fill 5\n
-  58 | ???? | .end\n
-  59 | ???? | \n
-  60 | ???? | .orig x4000\n
-  61 | 4000 |     ANSWER .blkw 1\n
-  62 | ???? | .end\n
-  63 | ???? | \n
-  64 | ???? | ;; You may change these values for debuggin\n
-  65 | ???? | .orig x5000\n
-  66 | 5000 |     .fill -1\n
-  67 | 5001 |     .fill 2 \n
-  68 | 5002 |     .fill 7 \n
-  69 | 5003 |     .fill 3 \n
-  70 | 5004 |     .fill -8 \n
-  71 | ???? | .end\n
-  72 | ???? | 
+  27 | ???? | FOR \n
+  28 | 3007 |     ADD R5, R3, R4\n
+  29 | 3008 |     BRzp END\n
+  30 | 3009 |     ADD R7, R6, R3\n
+  31 | 300A |     LDR R7, R7, #0\n
+  32 | ???? |     \n
+  33 | 300B |     ADD R5, R7, #0\n
+  34 | 300C |     NOT R1, R1\n
+  35 | 300D |     ADD R5, R5, R1\n
+  36 | 300E |     ADD R5, R5, #1\n
+  37 | 300F |     NOT R1, R1\n
+  38 | ???? |     \n
+  39 | 3010 |     BRzp SKIP\n
+  40 | 3011 |     ADD R1, R7, #0\n
+  41 | 3012 |     ADD R0, R3, #0\n
+  42 | ???? | SKIP\n
+  43 | 3013 |     ADD R3, R3, #1\n
+  44 | 3014 |     BR FOR\n
+  45 | ???? | END\n
+  46 | 3015 |     LD R7, RESULT\n
+  47 | 3016 |     STR R0, R7, #0\n
+  48 | ???? | \n
+  49 | ???? |     \n
+  50 | 3017 |     HALT\n
+  51 | ???? | \n
+  52 | ???? | ;; Do not rename or remove any existing labels\n
+  53 | ???? | ;; You may change the value of LENGTH for debugging\n
+  54 | 3018 | RESULT .fill x4000\n
+  55 | 3019 | ARRAY .fill x5000\n
+  56 | 301A | LENGTH .fill 5\n
+  57 | ???? | .end\n
+  58 | ???? | \n
+  59 | ???? | .orig x4000\n
+  60 | 4000 |     ANSWER .blkw 1\n
+  61 | ???? | .end\n
+  62 | ???? | \n
+  63 | ???? | ;; You may change these values for debuggin\n
+  64 | ???? | .orig x5000\n
+  65 | 5000 |     .fill -1\n
+  66 | 5001 |     .fill 2 \n
+  67 | 5002 |     .fill 7 \n
+  68 | 5003 |     .fill 3 \n
+  69 | 5004 |     .fill -8 \n
+  70 | ???? | .end\n
+  71 | ???? | 
 ====================
