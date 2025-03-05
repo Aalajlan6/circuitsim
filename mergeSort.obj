@@ -2,7 +2,7 @@ LC-3 OBJ FILE
 
 .TEXT
 3000
-121
+210
 2C11
 200D
 220D
@@ -123,6 +123,95 @@ C1C0
 7F82
 7B81
 1BA0
+1DBB
+717F
+737E
+757D
+777C
+797B
+6144
+6345
+6546
+6747
+6948
+18A0
+6D47
+9FBF
+1FE1
+1E87
+061B
+6D48
+9FBF
+1FE1
+1EC7
+0616
+1C02
+6F80
+1C03
+6D80
+9DBF
+1DA1
+1DC6
+0207
+1C02
+6F80
+1C44
+7F80
+1921
+14A1
+0FE7
+1C03
+6F80
+1C44
+7F80
+1921
+16E1
+0FE0
+6D47
+9FBF
+1FE1
+1E87
+0607
+1C02
+6F80
+1C44
+7F80
+1921
+14A1
+0FF4
+6D48
+9FBF
+1FE1
+1EC7
+0607
+1C03
+6F80
+1C44
+7F80
+1921
+16E1
+0FF4
+6546
+6D48
+9FBF
+1FE1
+1E87
+0606
+1C42
+6F80
+1C02
+7F80
+14A1
+0FF5
+697B
+677C
+657D
+637E
+617F
+1D60
+6B81
+6F82
+1DA3
 C1C0
 4000
 4
@@ -150,24 +239,38 @@ ADDR | EXT | LABEL
 3062 |   0 | DIVIDE_LOOP
 3069 |   0 | DIVIDE_END
 3074 |   0 | MERGE
+3084 |   0 | MERGE_LOOP1
+309D |   0 | MERGE_ELSE
+30A4 |   0 | MERGE_LOOP2
+30B0 |   0 | MERGE_LOOP3
+30BC |   0 | MERGE_COPY
+30BD |   0 | MERGE_COPY_LOOP
+30C8 |   0 | MERGE_END
 
 .LINKER_INFO
 
 .DEBUG
 # DEBUG SYMBOLS FOR LC3TOOLS
 
-LABEL          | INDEX
-ARRAY          |   843
-BUF            |   865
-LENGTH         |   887
-STACK_PTR      |   905
-MERGESORT      |  1081
-MERGESORT_END  |  2612
-DIVIDE         |  2986
-DIVIDE_NOTZERO |  3424
-DIVIDE_LOOP    |  3472
-DIVIDE_END     |  3622
-MERGE          |  4013
+LABEL           | INDEX
+ARRAY           |   826
+BUF             |   848
+LENGTH          |   870
+STACK_PTR       |   888
+MERGESORT       |   973
+MERGESORT_END   |  2943
+DIVIDE          |  3223
+DIVIDE_NOTZERO  |  3791
+DIVIDE_LOOP     |  3839
+DIVIDE_END      |  4025
+MERGE           |  4336
+MERGE_LOOP1     |  4882
+MERGE_ELSE      |  5610
+MERGE_LOOP2     |  5801
+MERGE_LOOP3     |  6108
+MERGE_COPY      |  6414
+MERGE_COPY_LOOP |  6496
+MERGE_END       |  6775
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -180,7 +283,7 @@ LINE | ADDR | SOURCE
    7 | ???? | \n
    8 | ???? | .orig x3000\n
    9 | ???? | \n
-  10 | ???? |     ; Initialize stack pointer\n
+  10 | ???? |     ; You do not need to write anything here\n
   11 | 3000 |     LD   R6, STACK_PTR\n
   12 | ???? | \n
   13 | ???? |     ; Push arguments for MERGESORT\n
@@ -189,7 +292,7 @@ LINE | ADDR | SOURCE
   16 | 3003 |     AND  R2, R2, #0      ; start = 0\n
   17 | 3004 |     LD   R3, LENGTH      ; end = length\n
   18 | ???? | \n
-  19 | ???? |     ; Push arguments to the stack in reverse order\n
+  19 | ???? |     ; Put them on stack in reverse order\n
   20 | 3005 |     ADD  R6, R6, #-1\n
   21 | 3006 |     STR  R3, R6, #0\n
   22 | 3007 |     ADD  R6, R6, #-1\n
@@ -199,191 +302,317 @@ LINE | ADDR | SOURCE
   26 | 300B |     ADD  R6, R6, #-1\n
   27 | 300C |     STR  R0, R6, #0\n
   28 | ???? | \n
-  29 | ???? |     ; Call MERGESORT\n
-  30 | 300D |     JSR  MERGESORT\n
-  31 | 300E |     HALT\n
-  32 | ???? | \n
-  33 | 300F | ARRAY     .fill x4000\n
-  34 | 3010 | BUF       .fill x5000\n
-  35 | 3011 | LENGTH    .fill 4\n
-  36 | 3012 | STACK_PTR .fill xF000\n
-  37 | ???? | \n
-  38 | ???? | ;;=============================================================\n
-  39 | ???? | ;; MERGESORT SUBROUTINE\n
-  40 | ???? | ;;=============================================================\n
-  41 | ???? | \n
-  42 | ???? | MERGESORT\n
-  43 | ???? |     ; Stack buildup: Save RA, old FP, and allocate local variables\n
-  44 | 3013 |     ADD  R6, R6, #-4\n
-  45 | 3014 |     STR  R7, R6, #2       ; Save RA\n
-  46 | 3015 |     STR  R5, R6, #1       ; Save old FP\n
-  47 | 3016 |     ADD  R5, R6, #0       ; R5 = new FP\n
-  48 | ???? | \n
-  49 | ???? |     ; Save R0-R4\n
-  50 | 3017 |     ADD  R6, R6, #-5\n
-  51 | 3018 |     STR  R0, R5, -1\n
-  52 | 3019 |     STR  R1, R5, -2\n
-  53 | 301A |     STR  R2, R5, -3\n
-  54 | 301B |     STR  R3, R5, -4\n
-  55 | 301C |     STR  R4, R5, -5\n
-  56 | ???? | \n
-  57 | ???? |     ; Load arguments\n
-  58 | 301D |     LDR  R0, R5, #4       ; arr\n
-  59 | 301E |     LDR  R1, R5, #5       ; buf\n
-  60 | 301F |     LDR  R2, R5, #6       ; start\n
-  61 | 3020 |     LDR  R3, R5, #7       ; end\n
-  62 | ???? | \n
-  63 | ???? |     ; Base case: if (start >= end - 1) return\n
-  64 | 3021 |     ADD  R4, R3, #-1\n
-  65 | 3022 |     NOT  R4, R4\n
-  66 | 3023 |     ADD  R4, R4, #1\n
-  67 | 3024 |     ADD  R4, R2, R4\n
-  68 | 3025 |     BRzp MERGESORT_END\n
-  69 | ???? | \n
-  70 | ???? |     ; Compute mid = DIVIDE(start + end, 2)\n
-  71 | 3026 |     ADD  R4, R2, R3\n
-  72 | 3027 |     ADD  R6, R6, #-1\n
-  73 | 3028 |     AND  R7, R7, #0\n
-  74 | 3029 |     ADD  R7, R7, #2\n
-  75 | 302A |     STR  R7, R6, #0       ; b = 2\n
-  76 | 302B |     ADD  R6, R6, #-1\n
-  77 | 302C |     STR  R4, R6, #0       ; a = (start + end)\n
-  78 | 302D |     JSR  DIVIDE\n
-  79 | 302E |     LDR  R4, R6, #0       ; mid\n
-  80 | 302F |     ADD  R6, R6, #3\n
-  81 | ???? | \n
-  82 | ???? |     ; Recursive MERGESORT(arr, buf, start, mid)\n
-  83 | 3030 |     ADD  R6, R6, #-4\n
-  84 | 3031 |     STR  R4, R6, #0\n
-  85 | 3032 |     STR  R2, R6, #1\n
-  86 | 3033 |     STR  R1, R6, #2\n
-  87 | 3034 |     STR  R0, R6, #3\n
-  88 | 3035 |     JSR  MERGESORT\n
-  89 | 3036 |     ADD  R6, R6, #4\n
-  90 | ???? | \n
-  91 | ???? |     ; Recursive MERGESORT(arr, buf, mid, end)\n
-  92 | 3037 |     ADD  R6, R6, #-4\n
-  93 | 3038 |     STR  R3, R6, #0\n
-  94 | 3039 |     STR  R4, R6, #1\n
-  95 | 303A |     STR  R1, R6, #2\n
-  96 | 303B |     STR  R0, R6, #3\n
-  97 | 303C |     JSR  MERGESORT\n
-  98 | 303D |     ADD  R6, R6, #4\n
-  99 | ???? | \n
- 100 | ???? |     ; Merge step: MERGE(arr, buf, start, mid, end)\n
- 101 | 303E |     ADD  R6, R6, #-5\n
- 102 | 303F |     STR  R3, R6, #0\n
- 103 | 3040 |     STR  R4, R6, #1\n
- 104 | 3041 |     STR  R2, R6, #2\n
- 105 | 3042 |     STR  R1, R6, #3\n
- 106 | 3043 |     STR  R0, R6, #4\n
- 107 | 3044 |     JSR  MERGE\n
- 108 | 3045 |     ADD  R6, R6, #5\n
- 109 | ???? | \n
- 110 | ???? | MERGESORT_END\n
- 111 | ???? |     ; Stack teardown\n
- 112 | 3046 |     LDR  R4, R5, -5\n
- 113 | 3047 |     LDR  R3, R5, -4\n
- 114 | 3048 |     LDR  R2, R5, -3\n
- 115 | 3049 |     LDR  R1, R5, -2\n
- 116 | 304A |     LDR  R0, R5, -1\n
- 117 | 304B |     ADD  R6, R5, #0\n
- 118 | 304C |     LDR  R5, R6, #1\n
- 119 | 304D |     LDR  R7, R6, #2\n
- 120 | 304E |     ADD  R6, R6, #3\n
- 121 | 304F |     RET\n
- 122 | ???? | \n
- 123 | ???? | ;;=============================================================\n
- 124 | ???? | ;; DIVIDE SUBROUTINE\n
- 125 | ???? | ;;=============================================================\n
+  29 | 300D |     JSR  MERGESORT\n
+  30 | 300E |     HALT\n
+  31 | ???? | \n
+  32 | 300F | ARRAY     .fill x4000\n
+  33 | 3010 | BUF       .fill x5000\n
+  34 | 3011 | LENGTH    .fill 4\n
+  35 | 3012 | STACK_PTR .fill xF000\n
+  36 | ???? | \n
+  37 | ???? | ; -----------------------------------------------------------\n
+  38 | ???? | MERGESORT  ;; Do not change this label!\n
+  39 | ???? | ; Mergesort pseudocode in comments:\n
+  40 | ???? | ; MERGESORT(arr, buf, start, end):\n
+  41 | ???? | ;   if (start >= end - 1) return;\n
+  42 | ???? | ;   mid = DIVIDE(start + end, 2);\n
+  43 | ???? | ;   MERGESORT(arr, buf, start, mid);\n
+  44 | ???? | ;   MERGESORT(arr, buf, mid, end);\n
+  45 | ???? | ;   MERGE(arr, buf, start, mid, end);\n
+  46 | ???? | \n
+  47 | ???? |     ; Build-up: Reserve space for RV, RA, old FP, local vars\n
+  48 | 3013 |     ADD  R6, R6, #-4\n
+  49 | 3014 |     STR  R7, R6, #2       ; Save RA\n
+  50 | 3015 |     STR  R5, R6, #1       ; Save old FP\n
+  51 | 3016 |     ADD  R5, R6, #0       ; R5 = new FP\n
+  52 | ???? | \n
+  53 | ???? |     ; Save R0-R4\n
+  54 | 3017 |     ADD  R6, R6, #-5\n
+  55 | 3018 |     STR  R0, R5, -1\n
+  56 | 3019 |     STR  R1, R5, -2\n
+  57 | 301A |     STR  R2, R5, -3\n
+  58 | 301B |     STR  R3, R5, -4\n
+  59 | 301C |     STR  R4, R5, -5\n
+  60 | ???? | \n
+  61 | ???? |     ; Load arguments from stack\n
+  62 | 301D |     LDR  R0, R5, #4       ; arr\n
+  63 | 301E |     LDR  R1, R5, #5       ; buf\n
+  64 | 301F |     LDR  R2, R5, #6       ; start\n
+  65 | 3020 |     LDR  R3, R5, #7       ; end\n
+  66 | ???? | \n
+  67 | ???? |     ; if (start >= end - 1) return\n
+  68 | 3021 |     ADD  R4, R3, #-1\n
+  69 | 3022 |     NOT  R4, R4\n
+  70 | 3023 |     ADD  R4, R4, #1       ; -(end - 1)\n
+  71 | 3024 |     ADD  R4, R2, R4       ; start - (end - 1)\n
+  72 | 3025 |     BRzp MERGESORT_END\n
+  73 | ???? | \n
+  74 | ???? |     ; mid = DIVIDE(start + end, 2)\n
+  75 | 3026 |     ADD  R4, R2, R3\n
+  76 | 3027 |     ADD  R6, R6, #-1\n
+  77 | 3028 |     AND  R7, R7, #0\n
+  78 | 3029 |     ADD  R7, R7, #2\n
+  79 | 302A |     STR  R7, R6, #0       ; b = 2\n
+  80 | 302B |     ADD  R6, R6, #-1\n
+  81 | 302C |     STR  R4, R6, #0       ; a = (start + end)\n
+  82 | 302D |     JSR  DIVIDE\n
+  83 | 302E |     LDR  R4, R6, #0       ; mid\n
+  84 | 302F |     ADD  R6, R6, #3\n
+  85 | ???? | \n
+  86 | ???? |     ; MERGESORT(arr, buf, start, mid)\n
+  87 | 3030 |     ADD  R6, R6, #-4\n
+  88 | 3031 |     STR  R4, R6, #0       ; mid\n
+  89 | 3032 |     STR  R2, R6, #1       ; start\n
+  90 | 3033 |     STR  R1, R6, #2       ; buf\n
+  91 | 3034 |     STR  R0, R6, #3       ; arr\n
+  92 | 3035 |     JSR  MERGESORT\n
+  93 | 3036 |     ADD  R6, R6, #4\n
+  94 | ???? | \n
+  95 | ???? |     ; MERGESORT(arr, buf, mid, end)\n
+  96 | 3037 |     ADD  R6, R6, #-4\n
+  97 | 3038 |     STR  R3, R6, #0       ; end\n
+  98 | 3039 |     STR  R4, R6, #1       ; mid\n
+  99 | 303A |     STR  R1, R6, #2       ; buf\n
+ 100 | 303B |     STR  R0, R6, #3       ; arr\n
+ 101 | 303C |     JSR  MERGESORT\n
+ 102 | 303D |     ADD  R6, R6, #4\n
+ 103 | ???? | \n
+ 104 | ???? |     ; MERGE(arr, buf, start, mid, end)\n
+ 105 | 303E |     ADD  R6, R6, #-5\n
+ 106 | 303F |     STR  R3, R6, #0       ; end\n
+ 107 | 3040 |     STR  R4, R6, #1       ; mid\n
+ 108 | 3041 |     STR  R2, R6, #2       ; start\n
+ 109 | 3042 |     STR  R1, R6, #3       ; buf\n
+ 110 | 3043 |     STR  R0, R6, #4       ; arr\n
+ 111 | 3044 |     JSR  MERGE\n
+ 112 | 3045 |     ADD  R6, R6, #5\n
+ 113 | ???? | \n
+ 114 | ???? | MERGESORT_END\n
+ 115 | ???? |     ; Teardown\n
+ 116 | 3046 |     LDR  R4, R5, -5\n
+ 117 | 3047 |     LDR  R3, R5, -4\n
+ 118 | 3048 |     LDR  R2, R5, -3\n
+ 119 | 3049 |     LDR  R1, R5, -2\n
+ 120 | 304A |     LDR  R0, R5, -1\n
+ 121 | 304B |     ADD  R6, R5, #0\n
+ 122 | 304C |     LDR  R5, R6, #1\n
+ 123 | 304D |     LDR  R7, R6, #2\n
+ 124 | 304E |     ADD  R6, R6, #3\n
+ 125 | 304F |     RET\n
  126 | ???? | \n
- 127 | ???? | DIVIDE\n
- 128 | ???? |     ; Stack buildup\n
- 129 | 3050 |     ADD  R6, R6, #-4\n
- 130 | 3051 |     STR  R7, R6, #2\n
- 131 | 3052 |     STR  R5, R6, #1\n
- 132 | 3053 |     ADD  R5, R6, #0\n
- 133 | ???? | \n
- 134 | 3054 |     ADD  R6, R6, #-5\n
- 135 | 3055 |     STR  R0, R5, -1\n
- 136 | 3056 |     STR  R1, R5, -2\n
- 137 | 3057 |     STR  R2, R5, -3\n
- 138 | 3058 |     STR  R3, R5, -4\n
- 139 | 3059 |     STR  R4, R5, -5\n
+ 127 | ???? | ; -----------------------------------------------------------\n
+ 128 | ???? | DIVIDE  ;; Do not change this label!\n
+ 129 | ???? | ; DIVIDE(a, b):\n
+ 130 | ???? | ;   if (b == 0) return 0;\n
+ 131 | ???? | ;   q = 0;\n
+ 132 | ???? | ;   while (a >= b) { a -= b; q++; }\n
+ 133 | ???? | ;   return q;\n
+ 134 | ???? | \n
+ 135 | ???? |     ; Build-up\n
+ 136 | 3050 |     ADD  R6, R6, #-4\n
+ 137 | 3051 |     STR  R7, R6, #2\n
+ 138 | 3052 |     STR  R5, R6, #1\n
+ 139 | 3053 |     ADD  R5, R6, #0\n
  140 | ???? | \n
- 141 | ???? |     ; Load arguments\n
- 142 | 305A |     LDR  R0, R5, #4   ; a\n
- 143 | 305B |     LDR  R1, R5, #5   ; b\n
- 144 | ???? | \n
- 145 | ???? |     ; if (b == 0) return 0\n
- 146 | 305C |     AND  R2, R1, R1\n
- 147 | 305D |     BRnp DIVIDE_NOTZERO\n
- 148 | 305E |     AND  R2, R2, #0\n
- 149 | 305F |     STR  R2, R5, #3\n
- 150 | 3060 |     BR    DIVIDE_END\n
+ 141 | 3054 |     ADD  R6, R6, #-5\n
+ 142 | 3055 |     STR  R0, R5, -1\n
+ 143 | 3056 |     STR  R1, R5, -2\n
+ 144 | 3057 |     STR  R2, R5, -3\n
+ 145 | 3058 |     STR  R3, R5, -4\n
+ 146 | 3059 |     STR  R4, R5, -5\n
+ 147 | ???? | \n
+ 148 | ???? |     ; Load arguments\n
+ 149 | 305A |     LDR  R0, R5, #4   ; a\n
+ 150 | 305B |     LDR  R1, R5, #5   ; b\n
  151 | ???? | \n
- 152 | ???? | DIVIDE_NOTZERO\n
- 153 | ???? |     ; q = 0\n
- 154 | 3061 |     AND  R2, R2, #0\n
- 155 | ???? | \n
- 156 | ???? | DIVIDE_LOOP\n
- 157 | 3062 |     NOT  R3, R1\n
- 158 | 3063 |     ADD  R3, R3, #1\n
- 159 | 3064 |     ADD  R4, R0, R3\n
- 160 | 3065 |     BRn  DIVIDE_END\n
- 161 | 3066 |     ADD  R0, R0, R3\n
- 162 | 3067 |     ADD  R2, R2, #1\n
- 163 | 3068 |     BR   DIVIDE_LOOP\n
- 164 | ???? | \n
- 165 | ???? | DIVIDE_END\n
- 166 | 3069 |     STR  R2, R5, #3\n
- 167 | ???? | \n
- 168 | ???? |     ; Stack teardown\n
- 169 | 306A |     LDR  R4, R5, -5\n
- 170 | 306B |     LDR  R3, R5, -4\n
- 171 | 306C |     LDR  R2, R5, -3\n
- 172 | 306D |     LDR  R1, R5, -2\n
- 173 | 306E |     LDR  R0, R5, -1\n
- 174 | 306F |     ADD  R6, R5, #0\n
- 175 | 3070 |     LDR  R5, R6, #1\n
- 176 | 3071 |     LDR  R7, R6, #2\n
- 177 | 3072 |     ADD  R6, R6, #3\n
- 178 | 3073 |     RET\n
- 179 | ???? | \n
- 180 | ???? | ;;=============================================================\n
- 181 | ???? | ;; MERGE SUBROUTINE\n
- 182 | ???? | ;;=============================================================\n
- 183 | ???? | \n
- 184 | ???? | MERGE\n
- 185 | ???? |     ; Stack buildup\n
- 186 | 3074 |     ADD  R6, R6, #-4\n
- 187 | 3075 |     STR  R7, R6, #2\n
- 188 | 3076 |     STR  R5, R6, #1\n
- 189 | 3077 |     ADD  R5, R6, #0\n
+ 152 | ???? |     ; if (b == 0) return 0\n
+ 153 | 305C |     AND  R2, R1, R1\n
+ 154 | 305D |     BRnp  DIVIDE_NOTZERO\n
+ 155 | 305E |     AND  R2, R2, #0\n
+ 156 | 305F |     STR  R2, R5, #3\n
+ 157 | 3060 |     BR    DIVIDE_END\n
+ 158 | ???? | \n
+ 159 | ???? | DIVIDE_NOTZERO\n
+ 160 | ???? |     ; q = 0\n
+ 161 | 3061 |     AND  R2, R2, #0\n
+ 162 | ???? | \n
+ 163 | ???? | DIVIDE_LOOP\n
+ 164 | 3062 |     NOT  R3, R1\n
+ 165 | 3063 |     ADD  R3, R3, #1   ; -b\n
+ 166 | 3064 |     ADD  R4, R0, R3   ; a - b\n
+ 167 | 3065 |     BRn  DIVIDE_END\n
+ 168 | 3066 |     ADD  R0, R0, R3   ; a -= b\n
+ 169 | 3067 |     ADD  R2, R2, #1   ; q++\n
+ 170 | 3068 |     BR   DIVIDE_LOOP\n
+ 171 | ???? | \n
+ 172 | ???? | DIVIDE_END\n
+ 173 | 3069 |     STR  R2, R5, #3   ; return q\n
+ 174 | ???? | \n
+ 175 | ???? |     ; Teardown\n
+ 176 | 306A |     LDR  R4, R5, -5\n
+ 177 | 306B |     LDR  R3, R5, -4\n
+ 178 | 306C |     LDR  R2, R5, -3\n
+ 179 | 306D |     LDR  R1, R5, -2\n
+ 180 | 306E |     LDR  R0, R5, -1\n
+ 181 | 306F |     ADD  R6, R5, #0\n
+ 182 | 3070 |     LDR  R5, R6, #1\n
+ 183 | 3071 |     LDR  R7, R6, #2\n
+ 184 | 3072 |     ADD  R6, R6, #3\n
+ 185 | 3073 |     RET\n
+ 186 | ???? | \n
+ 187 | ???? | ; -----------------------------------------------------------\n
+ 188 | ???? | MERGE  ;; Do not change this label!\n
+ 189 | ???? | ; MERGE(arr, buf, start, mid, end)\n
  190 | ???? | \n
- 191 | ???? |     ; (Omitted for brevity\u{2014}Merge logic remains the same)\n
- 192 | ???? |     ; Ensure labels are intact, and stack push/pop operations are balanced.\n
- 193 | ???? | \n
- 194 | 3078 |     RET\n
- 195 | ???? | \n
- 196 | ???? | .end\n
- 197 | ???? | \n
- 198 | ???? | ;;=============================================================\n
- 199 | ???? | ;; DATA STORAGE\n
- 200 | ???? | ;;=============================================================\n
- 201 | ???? | \n
- 202 | ???? | .orig x4000\n
- 203 | 4000 |     .fill 5\n
- 204 | 4001 |     .fill 2\n
- 205 | 4002 |     .fill 3\n
- 206 | 4003 |     .fill 1\n
- 207 | ???? | .end\n
- 208 | ???? | \n
- 209 | ???? | .orig x5000\n
- 210 | 5000 |     .fill 5\n
- 211 | 5001 |     .fill 2\n
- 212 | 5002 |     .fill 3\n
- 213 | 5003 |     .fill 1\n
- 214 | ???? | .end\n
- 215 | ???? | 
+ 191 | ???? |     ; Build-up\n
+ 192 | 3074 |     ADD  R6, R6, #-4\n
+ 193 | 3075 |     STR  R7, R6, #2\n
+ 194 | 3076 |     STR  R5, R6, #1\n
+ 195 | 3077 |     ADD  R5, R6, #0\n
+ 196 | ???? | \n
+ 197 | 3078 |     ADD  R6, R6, #-5\n
+ 198 | 3079 |     STR  R0, R5, -1\n
+ 199 | 307A |     STR  R1, R5, -2\n
+ 200 | 307B |     STR  R2, R5, -3\n
+ 201 | 307C |     STR  R3, R5, -4\n
+ 202 | 307D |     STR  R4, R5, -5\n
+ 203 | ???? | \n
+ 204 | ???? |     ; Load arguments\n
+ 205 | 307E |     LDR  R0, R5, #4   ; arr\n
+ 206 | 307F |     LDR  R1, R5, #5   ; buf\n
+ 207 | 3080 |     LDR  R2, R5, #6   ; start\n
+ 208 | 3081 |     LDR  R3, R5, #7   ; mid\n
+ 209 | 3082 |     LDR  R4, R5, #8   ; end\n
+ 210 | ???? | \n
+ 211 | ???? |     ; i = start (R2), j = mid (R3), k = start => let\'s reuse R4 for k\n
+ 212 | 3083 |     ADD  R4, R2, #0\n
+ 213 | ???? | \n
+ 214 | ???? | MERGE_LOOP1\n
+ 215 | ???? |     ; while (i < mid && j < end)\n
+ 216 | ???? |     ; check i < mid\n
+ 217 | 3084 |     LDR  R6, R5, #7   ; mid\n
+ 218 | 3085 |     NOT  R7, R6\n
+ 219 | 3086 |     ADD  R7, R7, #1\n
+ 220 | 3087 |     ADD  R7, R2, R7   ; i - mid\n
+ 221 | 3088 |     BRzp  MERGE_LOOP2\n
+ 222 | ???? | \n
+ 223 | ???? |     ; check j < end\n
+ 224 | 3089 |     LDR  R6, R5, #8   ; end\n
+ 225 | 308A |     NOT  R7, R6\n
+ 226 | 308B |     ADD  R7, R7, #1\n
+ 227 | 308C |     ADD  R7, R3, R7   ; j - end\n
+ 228 | 308D |     BRzp  MERGE_LOOP2\n
+ 229 | ???? | \n
+ 230 | ???? |     ; if arr[i] <= arr[j]\n
+ 231 | 308E |     ADD  R6, R0, R2\n
+ 232 | 308F |     LDR  R7, R6, #0   ; arr[i]\n
+ 233 | 3090 |     ADD  R6, R0, R3\n
+ 234 | 3091 |     LDR  R6, R6, #0   ; arr[j]\n
+ 235 | 3092 |     NOT  R6, R6\n
+ 236 | 3093 |     ADD  R6, R6, #1\n
+ 237 | 3094 |     ADD  R6, R7, R6   ; arr[i] - arr[j]\n
+ 238 | 3095 |     BRp  MERGE_ELSE\n
+ 239 | ???? | \n
+ 240 | ???? |     ; buf[k] = arr[i]\n
+ 241 | 3096 |     ADD  R6, R0, R2\n
+ 242 | 3097 |     LDR  R7, R6, #0\n
+ 243 | 3098 |     ADD  R6, R1, R4\n
+ 244 | 3099 |     STR  R7, R6, #0\n
+ 245 | 309A |     ADD  R4, R4, #1   ; k++\n
+ 246 | 309B |     ADD  R2, R2, #1   ; i++\n
+ 247 | 309C |     BR   MERGE_LOOP1\n
+ 248 | ???? | \n
+ 249 | ???? | MERGE_ELSE\n
+ 250 | ???? |     ; buf[k] = arr[j]\n
+ 251 | 309D |     ADD  R6, R0, R3\n
+ 252 | 309E |     LDR  R7, R6, #0\n
+ 253 | 309F |     ADD  R6, R1, R4\n
+ 254 | 30A0 |     STR  R7, R6, #0\n
+ 255 | 30A1 |     ADD  R4, R4, #1   ; k++\n
+ 256 | 30A2 |     ADD  R3, R3, #1   ; j++\n
+ 257 | 30A3 |     BR   MERGE_LOOP1\n
+ 258 | ???? | \n
+ 259 | ???? | MERGE_LOOP2\n
+ 260 | ???? |     ; while (i < mid)\n
+ 261 | 30A4 |     LDR  R6, R5, #7\n
+ 262 | 30A5 |     NOT  R7, R6\n
+ 263 | 30A6 |     ADD  R7, R7, #1\n
+ 264 | 30A7 |     ADD  R7, R2, R7   ; i-mid\n
+ 265 | 30A8 |     BRzp  MERGE_LOOP3\n
+ 266 | ???? | \n
+ 267 | ???? |     ; buf[k] = arr[i]\n
+ 268 | 30A9 |     ADD  R6, R0, R2\n
+ 269 | 30AA |     LDR  R7, R6, #0\n
+ 270 | 30AB |     ADD  R6, R1, R4\n
+ 271 | 30AC |     STR  R7, R6, #0\n
+ 272 | 30AD |     ADD  R4, R4, #1\n
+ 273 | 30AE |     ADD  R2, R2, #1\n
+ 274 | 30AF |     BR   MERGE_LOOP2\n
+ 275 | ???? | \n
+ 276 | ???? | MERGE_LOOP3\n
+ 277 | ???? |     ; while (j < end)\n
+ 278 | 30B0 |     LDR  R6, R5, #8\n
+ 279 | 30B1 |     NOT  R7, R6\n
+ 280 | 30B2 |     ADD  R7, R7, #1\n
+ 281 | 30B3 |     ADD  R7, R3, R7   ; j-end\n
+ 282 | 30B4 |     BRzp  MERGE_COPY\n
+ 283 | ???? | \n
+ 284 | ???? |     ; buf[k] = arr[j]\n
+ 285 | 30B5 |     ADD  R6, R0, R3\n
+ 286 | 30B6 |     LDR  R7, R6, #0\n
+ 287 | 30B7 |     ADD  R6, R1, R4\n
+ 288 | 30B8 |     STR  R7, R6, #0\n
+ 289 | 30B9 |     ADD  R4, R4, #1\n
+ 290 | 30BA |     ADD  R3, R3, #1\n
+ 291 | 30BB |     BR   MERGE_LOOP3\n
+ 292 | ???? | \n
+ 293 | ???? | MERGE_COPY\n
+ 294 | ???? |     ; for (i = start; i < end; i++)\n
+ 295 | 30BC |     LDR  R2, R5, #6   ; i = start\n
+ 296 | ???? | \n
+ 297 | ???? | MERGE_COPY_LOOP\n
+ 298 | 30BD |     LDR  R6, R5, #8   ; end\n
+ 299 | 30BE |     NOT  R7, R6\n
+ 300 | 30BF |     ADD  R7, R7, #1\n
+ 301 | 30C0 |     ADD  R7, R2, R7   ; i-end\n
+ 302 | 30C1 |     BRzp  MERGE_END\n
+ 303 | ???? | \n
+ 304 | ???? |     ; arr[i] = buf[i]\n
+ 305 | 30C2 |     ADD  R6, R1, R2\n
+ 306 | 30C3 |     LDR  R7, R6, #0\n
+ 307 | 30C4 |     ADD  R6, R0, R2\n
+ 308 | 30C5 |     STR  R7, R6, #0\n
+ 309 | 30C6 |     ADD  R2, R2, #1\n
+ 310 | 30C7 |     BR   MERGE_COPY_LOOP\n
+ 311 | ???? | \n
+ 312 | ???? | MERGE_END\n
+ 313 | ???? |     ; Teardown\n
+ 314 | 30C8 |     LDR  R4, R5, -5\n
+ 315 | 30C9 |     LDR  R3, R5, -4\n
+ 316 | 30CA |     LDR  R2, R5, -3\n
+ 317 | 30CB |     LDR  R1, R5, -2\n
+ 318 | 30CC |     LDR  R0, R5, -1\n
+ 319 | 30CD |     ADD  R6, R5, #0\n
+ 320 | 30CE |     LDR  R5, R6, #1\n
+ 321 | 30CF |     LDR  R7, R6, #2\n
+ 322 | 30D0 |     ADD  R6, R6, #3\n
+ 323 | 30D1 |     RET\n
+ 324 | ???? | \n
+ 325 | ???? | .end\n
+ 326 | ???? | \n
+ 327 | ???? | ;; You may change the values for debugging. \n
+ 328 | ???? | .orig x4000\n
+ 329 | 4000 |     .fill 5\n
+ 330 | 4001 |     .fill 2\n
+ 331 | 4002 |     .fill 3\n
+ 332 | 4003 |     .fill 1\n
+ 333 | ???? | .end\n
+ 334 | ???? | \n
+ 335 | ???? | .orig x5000\n
+ 336 | 5000 |     .fill 5\n
+ 337 | 5001 |     .fill 2\n
+ 338 | 5002 |     .fill 3\n
+ 339 | 5003 |     .fill 1\n
+ 340 | ???? | .end\n
+ 341 | ???? | 
 ====================
