@@ -2,15 +2,15 @@ LC-3 OBJ FILE
 
 .TEXT
 3000
-166
+140
 2C0A
-200B
+200A
 1DBF
 7180
-2007
+2008
 1DBF
 7180
-4833
+4826
 6180
 1DA3
 F025
@@ -20,154 +20,128 @@ F000
 0041
 0061
 001A
-1DBF
-1DBF
-7F80
-1DBF
-7B80
-1DBF
+1DBC
+7F82
+7B81
 1BA0
-1DBF
-7180
-1DBF
-7380
-1DBF
-7580
-1DBF
-7780
-1DBF
-7980
+1DBB
+717F
+737E
+757D
+777C
+797B
 6144
 6345
 947F
 14A1
 1602
 0802
-10E0
+1002
 0FFA
 7143
-6980
-1DA1
-6780
-1DA1
-6580
-1DA1
-6380
-1DA1
-6180
-1DA1
-1DA1
-6B80
-1DA1
-6F80
-1DA1
+697B
+677C
+657D
+637E
+617F
+1D60
+6B81
+6F82
+1DA3
 C1C0
-1DBF
-7F80
-1DBF
-7B80
-1DBF
+1DBC
+7F82
+7B81
 1BA0
-1DBF
-7980
-1DBF
-7780
-1DBF
-7580
-1DBF
-7380
-1DBF
-7180
+1DBB
+717F
+737E
+757D
+777C
+797B
 6144
 6345
+54A0
+1602
+66C0
+0402
+14A1
+0FFB
 56E0
+98BF
+1921
+18C4
+063D
 1803
 6900
-0402
-16E1
-0FFB
-54A0
-98FF
-1921
-1884
-063D
-1802
-6900
-2FB4
+2FC7
 9FFF
 1FE1
 1F07
 0817
-2FAF
-1FEA
+2FC2
 1FEF
+1FEA
 9FFF
 1FE1
 1F07
 0210
-2FA8
+2FBB
 9FFF
 1FE1
 1907
 1901
-2FA4
+2FB7
 1DBF
 7F80
 1DBF
 7980
-4FA0
+4FB3
 6980
-1DA3
-2F9B
+1DA2
+2FAE
 1907
 0E1B
-2F97
+2FAA
 9FFF
 1FE1
 1F07
 0816
-2F92
-1FEA
+2FA5
 1FEF
+1FEA
 9FFF
 1FE1
 1F07
 020F
-2F8B
+2F9E
 9FFF
 1FE1
 1907
 1901
-2F88
+2F9B
 1DBF
 7F80
 1DBF
 7980
-4F84
+4F97
 6980
-1DA3
-2F7E
+1DA2
+2F91
 1907
-1E02
+1E03
 79C0
-14A1
+16E1
 0FBF
-7143
-6980
-1DA1
-6780
-1DA1
-6580
-1DA1
-6380
-1DA1
-6180
-1DA1
-1DA1
-6B80
-1DA1
-6F80
-1DA1
+697B
+677C
+657D
+637E
+617F
+1D60
+6B81
+6F82
+1DA3
 C1C0
 4000
 6
@@ -187,40 +161,38 @@ ADDR | EXT | LABEL
 300F |   0 | ASCIILOWERA
 3010 |   0 | ALPHABETLEN
 3011 |   0 | MOD
-3024 |   0 | WHILE
-302A |   0 | FINISH
-303B |   0 | ENCRYPT
-304E |   0 | WHILE_LOOP
-3053 |   0 | FOR_LOOP
-3054 |   0 | FOR_LOOP_CHECK
-305A |   0 | IF_STATMENT
-3076 |   0 | ELSE_IF
-3091 |   0 | STORING_CHAR
-3095 |   0 | AFTER_FOR
+301D |   0 | WHILE
+3023 |   0 | ENDWHILE
+302E |   0 | ENCRYPT
+303B |   0 | LENGTH_LOOP
+3040 |   0 | END_LENGTH
+3041 |   0 | FOR_LOOP
+3063 |   0 | CHECK_UPPER
+307E |   0 | WRITE_CHAR
+3082 |   0 | END_FOR
 
 .LINKER_INFO
 
 .DEBUG
 # DEBUG SYMBOLS FOR LC3TOOLS
 
-LABEL          | INDEX
-STACK_PTR      |   797
-STRING         |   827
-SHIFT          |   857
-ASCIIUPPERA    |   883
-ASCIILOWERA    |   910
-ALPHABETLEN    |   937
-MOD            |  1021
-WHILE          |  1785
-FINISH         |  1945
-ENCRYPT        |  2473
-WHILE_LOOP     |  3285
-FOR_LOOP       |  3465
-FOR_LOOP_CHECK |  3508
-IF_STATMENT    |  3710
-ELSE_IF        |  4459
-STORING_CHAR   |  5093
-AFTER_FOR      |  5202
+LABEL       | INDEX
+STACK_PTR   |   786
+STRING      |   810
+SHIFT       |   834
+ASCIIUPPERA |   854
+ASCIILOWERA |   886
+ALPHABETLEN |   918
+MOD         |  1021
+WHILE       |  1476
+ENDWHILE    |  1669
+ENCRYPT     |  2038
+LENGTH_LOOP |  2533
+END_LENGTH  |  2645
+FOR_LOOP    |  2721
+CHECK_UPPER |  3670
+WRITE_CHAR  |  4349
+END_FOR     |  4458
 ====================
 LINE | ADDR | SOURCE
    0 | ???? | ;;=============================================================\n
@@ -234,243 +206,207 @@ LINE | ADDR | SOURCE
    8 | ???? | \n
    9 | ???? | .orig x3000\n
   10 | ???? | \n
-  11 | 3000 |     LD   R6, STACK_PTR\n
-  12 | ???? | \n
-  13 | ???? |     ; Push SHIFT onto stack\n
-  14 | 3001 |     LD   R0, SHIFT\n
+  11 | ???? |     ; Main: Setup stack and call ENCRYPT\n
+  12 | 3000 |     LD   R6, STACK_PTR\n
+  13 | ???? | \n
+  14 | 3001 |     LD   R0, STRING       ; Push the string address\n
   15 | 3002 |     ADD  R6, R6, -1\n
   16 | 3003 |     STR  R0, R6, 0\n
   17 | ???? | \n
-  18 | ???? |     ; Push STRING onto stack\n
-  19 | 3004 |     LD   R0, STRING\n
-  20 | 3005 |     ADD  R6, R6, -1\n
-  21 | 3006 |     STR  R0, R6, 0\n
-  22 | ???? | \n
-  23 | ???? |     ; Call ENCRYPT\n
-  24 | 3007 |     JSR  ENCRYPT\n
-  25 | ???? | \n
-  26 | ???? |     ; Cleanup and exit\n
-  27 | 3008 |     LDR  R0, R6, 0\n
-  28 | 3009 |     ADD  R6, R6, 3\n
-  29 | 300A |     HALT\n
-  30 | ???? | \n
-  31 | ???? |     ;; Do not rename or remove any existing labels\n
-  32 | ???? |     ;; You may change the value of STRING, LENGTH, SHIFT for debugging\n
-  33 | 300B |     STACK_PTR     .fill xF000\n
-  34 | 300C |     STRING        .fill x4000\n
-  35 | 300D |     SHIFT         .fill 7\n
-  36 | 300E |     ASCIIUPPERA   .fill 65\n
-  37 | 300F |     ASCIILOWERA   .fill 97\n
-  38 | 3010 |     ALPHABETLEN   .fill 26\n
-  39 | ???? | \n
-  40 | ???? | ; ---------------------------------------------------------\n
-  41 | ???? | MOD ;; Do not change this label! Treat this as like the name of the function in a function header\n
-  42 | ???? |     ;; Slightly reordered build-up and tear-down, same logic\n
-  43 | 3011 |     ADD  R6, R6, -1            ; Reserve space for return value\n
-  44 | 3012 |     ADD  R6, R6, -1            ; Save return address\n
-  45 | 3013 |     STR  R7, R6, 0\n
-  46 | 3014 |     ADD  R6, R6, -1            ; Save old frame pointer\n
-  47 | 3015 |     STR  R5, R6, 0\n
-  48 | 3016 |     ADD  R6, R6, -1            ; Allocate local variable\n
-  49 | 3017 |     ADD  R5, R6, 0             ; R5 = new FP\n
-  50 | ???? | \n
-  51 | ???? |     ; Save registers\n
-  52 | 3018 |     ADD  R6, R6, -1\n
-  53 | 3019 |     STR  R0, R6, 0\n
-  54 | 301A |     ADD  R6, R6, -1\n
-  55 | 301B |     STR  R1, R6, 0\n
-  56 | 301C |     ADD  R6, R6, -1\n
-  57 | 301D |     STR  R2, R6, 0\n
-  58 | 301E |     ADD  R6, R6, -1\n
-  59 | 301F |     STR  R3, R6, 0\n
-  60 | 3020 |     ADD  R6, R6, -1\n
-  61 | 3021 |     STR  R4, R6, 0\n
-  62 | ???? | \n
-  63 | ???? |     ; Load arguments\n
-  64 | 3022 |     LDR  R0, R5, #4   ; a\n
-  65 | 3023 |     LDR  R1, R5, #5   ; b\n
-  66 | ???? | \n
-  67 | ???? | WHILE:\n
-  68 | 3024 |     NOT  R2, R1       ; R2 = -b\n
-  69 | 3025 |     ADD  R2, R2, #1\n
-  70 | 3026 |     ADD  R3, R0, R2   ; R3 = a - b\n
-  71 | 3027 |     BRn  FINISH\n
-  72 | 3028 |     ADD  R0, R3, #0   ; a = a - b\n
-  73 | 3029 |     BR   WHILE\n
-  74 | ???? | \n
-  75 | ???? | FINISH\n
-  76 | 302A |     STR  R0, R5, #3   ; store return value at FP+3\n
-  77 | ???? | \n
-  78 | ???? |     ; ------ TEARDOWN ------\n
-  79 | 302B |     LDR  R4, R6, #0   ; restore R4\n
-  80 | 302C |     ADD  R6, R6, #1\n
-  81 | 302D |     LDR  R3, R6, #0\n
-  82 | 302E |     ADD  R6, R6, #1\n
-  83 | 302F |     LDR  R2, R6, #0\n
-  84 | 3030 |     ADD  R6, R6, #1\n
-  85 | 3031 |     LDR  R1, R6, #0\n
-  86 | 3032 |     ADD  R6, R6, #1\n
-  87 | 3033 |     LDR  R0, R6, #0\n
-  88 | 3034 |     ADD  R6, R6, #1\n
-  89 | ???? | \n
-  90 | 3035 |     ADD  R6, R6, #1   ; pop local variable\n
-  91 | ???? | \n
-  92 | 3036 |     LDR  R5, R6, #0   ; old FP\n
-  93 | 3037 |     ADD  R6, R6, #1\n
-  94 | ???? | \n
-  95 | 3038 |     LDR  R7, R6, #0   ; return address\n
-  96 | 3039 |     ADD  R6, R6, #1\n
-  97 | 303A |     RET\n
-  98 | ???? | \n
-  99 | ???? | ; ---------------------------------------------------------\n
- 100 | ???? | ENCRYPT ;; Do not change this label! Treat this as like the name of the function in a function header\n
- 101 | ???? |     ;; Code your implementation for the ENCRYPT subroutine here, with a slight reorder\n
- 102 | ???? | \n
- 103 | ???? |     ; ------ BUILDUP ------\n
- 104 | 303B |     ADD  R6, R6, -1\n
- 105 | 303C |     STR  R7, R6, 0      ; Save return address\n
- 106 | 303D |     ADD  R6, R6, -1\n
- 107 | 303E |     STR  R5, R6, 0      ; Save old frame pointer\n
- 108 | 303F |     ADD  R6, R6, -1     ; Allocate space for a local var\n
- 109 | 3040 |     ADD  R5, R6, 0      ; R5 = new FP\n
- 110 | ???? | \n
- 111 | 3041 |     ADD  R6, R6, -1     ; Save R4\n
- 112 | 3042 |     STR  R4, R6, 0\n
- 113 | 3043 |     ADD  R6, R6, -1     ; Save R3\n
- 114 | 3044 |     STR  R3, R6, 0\n
- 115 | 3045 |     ADD  R6, R6, -1     ; Save R2\n
- 116 | 3046 |     STR  R2, R6, 0\n
- 117 | 3047 |     ADD  R6, R6, -1     ; Save R1\n
- 118 | 3048 |     STR  R1, R6, 0\n
- 119 | 3049 |     ADD  R6, R6, -1     ; Save R0\n
- 120 | 304A |     STR  R0, R6, 0\n
+  18 | 3004 |     LD   R0, SHIFT        ; Push the shift value\n
+  19 | 3005 |     ADD  R6, R6, -1\n
+  20 | 3006 |     STR  R0, R6, 0\n
+  21 | ???? | \n
+  22 | 3007 |     JSR  ENCRYPT          ; Call ENCRYPT\n
+  23 | ???? |     \n
+  24 | 3008 |     LDR  R0, R6, 0        ; Return value (not used here)\n
+  25 | 3009 |     ADD  R6, R6, 3        ; Pop arguments + return value\n
+  26 | 300A |     HALT\n
+  27 | ???? | \n
+  28 | ???? | ; Data\n
+  29 | 300B | STACK_PTR   .fill xF000\n
+  30 | 300C | STRING      .fill x4000\n
+  31 | 300D | SHIFT       .fill 7\n
+  32 | 300E | ASCIIUPPERA .fill 65      ; \'A\'\n
+  33 | 300F | ASCIILOWERA .fill 97      ; \'a\'\n
+  34 | 3010 | ALPHABETLEN .fill 26      ; 26 letters\n
+  35 | ???? | \n
+  36 | ???? | ; ------------------------------------------------------------\n
+  37 | ???? | MOD\n
+  38 | ???? |     ; MOD(a, b): a mod b\n
+  39 | ???? |     ; a is at R5+4, b at R5+5, return in R5+3\n
+  40 | ???? | \n
+  41 | ???? |     ; Stack build-up (reordered a bit)\n
+  42 | 3011 |     ADD  R6, R6, -4\n
+  43 | 3012 |     STR  R7, R6, 2         ; save RA\n
+  44 | 3013 |     STR  R5, R6, 1         ; save old FP\n
+  45 | 3014 |     ADD  R5, R6, 0         ; R5 = new FP\n
+  46 | 3015 |     ADD  R6, R6, -5        ; push R0-R4\n
+  47 | 3016 |     STR  R0, R5, -1\n
+  48 | 3017 |     STR  R1, R5, -2\n
+  49 | 3018 |     STR  R2, R5, -3\n
+  50 | 3019 |     STR  R3, R5, -4\n
+  51 | 301A |     STR  R4, R5, -5\n
+  52 | ???? | \n
+  53 | ???? |     ; Load arguments\n
+  54 | 301B |     LDR  R0, R5, 4\n
+  55 | 301C |     LDR  R1, R5, 5\n
+  56 | ???? | \n
+  57 | ???? | WHILE\n
+  58 | 301D |     NOT  R2, R1            ; R2 = ~b\n
+  59 | 301E |     ADD  R2, R2, #1        ; R2 = -b\n
+  60 | 301F |     ADD  R3, R0, R2        ; R3 = a - b\n
+  61 | 3020 |     BRn  ENDWHILE\n
+  62 | 3021 |     ADD  R0, R0, R2        ; a = a - b\n
+  63 | 3022 |     BR   WHILE\n
+  64 | ???? | \n
+  65 | ???? | ENDWHILE\n
+  66 | 3023 |     STR  R0, R5, 3         ; store (a mod b)\n
+  67 | ???? | \n
+  68 | ???? |     ; Teardown\n
+  69 | 3024 |     LDR  R4, R5, -5        ; restore R4\n
+  70 | 3025 |     LDR  R3, R5, -4\n
+  71 | 3026 |     LDR  R2, R5, -3\n
+  72 | 3027 |     LDR  R1, R5, -2\n
+  73 | 3028 |     LDR  R0, R5, -1\n
+  74 | 3029 |     ADD  R6, R5, #0\n
+  75 | 302A |     LDR  R5, R6, 1         ; old FP\n
+  76 | 302B |     LDR  R7, R6, 2         ; RA\n
+  77 | 302C |     ADD  R6, R6, 3\n
+  78 | 302D |     RET\n
+  79 | ???? | \n
+  80 | ???? | ; ------------------------------------------------------------\n
+  81 | ???? | ENCRYPT\n
+  82 | ???? |     ; ENCRYPT(str, k): modifies str in-place with Caesar shift\n
+  83 | ???? | \n
+  84 | ???? |     ; Stack build-up\n
+  85 | 302E |     ADD  R6, R6, -4\n
+  86 | 302F |     STR  R7, R6, 2         ; save RA\n
+  87 | 3030 |     STR  R5, R6, 1         ; save old FP\n
+  88 | 3031 |     ADD  R5, R6, 0         ; R5 = new FP\n
+  89 | 3032 |     ADD  R6, R6, -5        ; push R0-R4\n
+  90 | 3033 |     STR  R0, R5, -1\n
+  91 | 3034 |     STR  R1, R5, -2\n
+  92 | 3035 |     STR  R2, R5, -3\n
+  93 | 3036 |     STR  R3, R5, -4\n
+  94 | 3037 |     STR  R4, R5, -5\n
+  95 | ???? | \n
+  96 | ???? |     ; Get arguments\n
+  97 | 3038 |     LDR  R0, R5, 4         ; str\n
+  98 | 3039 |     LDR  R1, R5, 5         ; k\n
+  99 | ???? | \n
+ 100 | ???? |     ; length = 0\n
+ 101 | 303A |     AND  R2, R2, #0\n
+ 102 | ???? | LENGTH_LOOP\n
+ 103 | 303B |     ADD  R3, R0, R2\n
+ 104 | 303C |     LDR  R3, R3, 0\n
+ 105 | 303D |     BRz  END_LENGTH\n
+ 106 | 303E |     ADD  R2, R2, #1\n
+ 107 | 303F |     BR   LENGTH_LOOP\n
+ 108 | ???? | END_LENGTH\n
+ 109 | ???? | \n
+ 110 | ???? |     ; for i in [0..length-1]\n
+ 111 | 3040 |     AND  R3, R3, #0        ; i = 0\n
+ 112 | ???? | FOR_LOOP\n
+ 113 | 3041 |     NOT  R4, R2            ; R4 = -length\n
+ 114 | 3042 |     ADD  R4, R4, #1\n
+ 115 | 3043 |     ADD  R4, R3, R4        ; R4 = i - length\n
+ 116 | 3044 |     BRzp END_FOR           ; if i >= length, done\n
+ 117 | ???? | \n
+ 118 | ???? |     ; Get str[i]\n
+ 119 | 3045 |     ADD  R4, R0, R3\n
+ 120 | 3046 |     LDR  R4, R4, 0\n
  121 | ???? | \n
- 122 | 304B |     LDR  R0, R5, #4     ; str\n
- 123 | 304C |     LDR  R1, R5, #5     ; k\n
- 124 | ???? | \n
- 125 | 304D |     AND  R3, R3, #0     ; length = 0\n
- 126 | ???? | \n
- 127 | ???? | WHILE_LOOP:\n
- 128 | 304E |     ADD  R4, R0, R3     ; address = &str[length]\n
- 129 | 304F |     LDR  R4, R4, #0     ; char = str[length]\n
- 130 | 3050 |     BRz  FOR_LOOP\n
- 131 | 3051 |     ADD  R3, R3, #1     ; length++\n
- 132 | 3052 |     BR   WHILE_LOOP\n
- 133 | ???? | \n
- 134 | ???? | FOR_LOOP:\n
- 135 | 3053 |     AND  R2, R2, #0     ; i = 0\n
+ 122 | ???? |     ; Check if \'a\' <= char <= \'z\'\n
+ 123 | 3047 |     LD   R7, ASCIILOWERA\n
+ 124 | 3048 |     NOT  R7, R7\n
+ 125 | 3049 |     ADD  R7, R7, #1\n
+ 126 | 304A |     ADD  R7, R4, R7        ; char - \'a\'\n
+ 127 | 304B |     BRn  CHECK_UPPER\n
+ 128 | ???? | \n
+ 129 | 304C |     LD   R7, ASCIILOWERA   ; compute \'z\'\n
+ 130 | 304D |     ADD  R7, R7, #15\n
+ 131 | 304E |     ADD  R7, R7, #10\n
+ 132 | 304F |     NOT  R7, R7\n
+ 133 | 3050 |     ADD  R7, R7, #1\n
+ 134 | 3051 |     ADD  R7, R4, R7        ; char - \'z\'\n
+ 135 | 3052 |     BRp  CHECK_UPPER\n
  136 | ???? | \n
- 137 | ???? | FOR_LOOP_CHECK:\n
- 138 | 3054 |     NOT  R4, R3\n
- 139 | 3055 |     ADD  R4, R4, #1     ; (i - length) compare\n
- 140 | 3056 |     ADD  R4, R2, R4\n
- 141 | 3057 |     BRzp AFTER_FOR\n
- 142 | ???? | \n
- 143 | 3058 |     ADD  R4, R0, R2     ; address of str[i]\n
- 144 | 3059 |     LDR  R4, R4, #0     ; R4 = str[i]\n
- 145 | ???? | \n
- 146 | ???? | IF_STATMENT:\n
- 147 | 305A |     LD   R7, ASCIILOWERA\n
- 148 | 305B |     NOT  R7, R7\n
- 149 | 305C |     ADD  R7, R7, #1     ; R7 = -\'a\'\n
- 150 | 305D |     ADD  R7, R4, R7     ; char - \'a\'\n
- 151 | 305E |     BRn  ELSE_IF\n
- 152 | ???? | \n
- 153 | 305F |     LD   R7, ASCIILOWERA\n
- 154 | 3060 |     ADD  R7, R7, #10\n
- 155 | 3061 |     ADD  R7, R7, #15    ; \'z\'\n
- 156 | 3062 |     NOT  R7, R7\n
- 157 | 3063 |     ADD  R7, R7, #1     ; -char\n
- 158 | 3064 |     ADD  R7, R4, R7     ; \'z\' - char\n
- 159 | 3065 |     BRp  ELSE_IF\n
- 160 | ???? | \n
- 161 | 3066 |     LD   R7, ASCIILOWERA\n
- 162 | 3067 |     NOT  R7, R7\n
- 163 | 3068 |     ADD  R7, R7, #1\n
- 164 | 3069 |     ADD  R4, R4, R7     ; char -= \'a\'\n
- 165 | 306A |     ADD  R4, R4, R1     ; char += k\n
- 166 | ???? | \n
- 167 | 306B |     LD   R7, ALPHABETLEN\n
- 168 | 306C |     ADD  R6, R6, -1\n
- 169 | 306D |     STR  R7, R6, #0     ; push second arg\n
- 170 | 306E |     ADD  R6, R6, -1\n
- 171 | 306F |     STR  R4, R6, #0     ; push first arg\n
- 172 | 3070 |     JSR  MOD\n
- 173 | ???? | \n
- 174 | 3071 |     LDR  R4, R6, #0     ; R4 = result\n
- 175 | 3072 |     ADD  R6, R6, #3\n
- 176 | ???? | \n
- 177 | 3073 |     LD   R7, ASCIILOWERA\n
- 178 | 3074 |     ADD  R4, R4, R7\n
- 179 | 3075 |     BR   STORING_CHAR\n
- 180 | ???? | \n
- 181 | ???? | ELSE_IF:\n
- 182 | 3076 |     LD   R7, ASCIIUPPERA\n
- 183 | 3077 |     NOT  R7, R7\n
- 184 | 3078 |     ADD  R7, R7, #1\n
- 185 | 3079 |     ADD  R7, R4, R7     ; char - \'A\'\n
- 186 | 307A |     BRn  STORING_CHAR\n
+ 137 | ???? |     ; Lowercase transform\n
+ 138 | 3053 |     LD   R7, ASCIILOWERA\n
+ 139 | 3054 |     NOT  R7, R7\n
+ 140 | 3055 |     ADD  R7, R7, #1\n
+ 141 | 3056 |     ADD  R4, R4, R7        ; char -= \'a\'\n
+ 142 | 3057 |     ADD  R4, R4, R1        ; char += k\n
+ 143 | 3058 |     LD   R7, ALPHABETLEN\n
+ 144 | 3059 |     ADD  R6, R6, -1\n
+ 145 | 305A |     STR  R7, R6, 0\n
+ 146 | 305B |     ADD  R6, R6, -1\n
+ 147 | 305C |     STR  R4, R6, 0\n
+ 148 | 305D |     JSR  MOD\n
+ 149 | 305E |     LDR  R4, R6, 0\n
+ 150 | 305F |     ADD  R6, R6, 2\n
+ 151 | 3060 |     LD   R7, ASCIILOWERA\n
+ 152 | 3061 |     ADD  R4, R4, R7\n
+ 153 | 3062 |     BR   WRITE_CHAR\n
+ 154 | ???? | \n
+ 155 | ???? | CHECK_UPPER\n
+ 156 | ???? |     ; Check if \'A\' <= char <= \'Z\'\n
+ 157 | 3063 |     LD   R7, ASCIIUPPERA\n
+ 158 | 3064 |     NOT  R7, R7\n
+ 159 | 3065 |     ADD  R7, R7, #1\n
+ 160 | 3066 |     ADD  R7, R4, R7\n
+ 161 | 3067 |     BRn  WRITE_CHAR\n
+ 162 | ???? | \n
+ 163 | 3068 |     LD   R7, ASCIIUPPERA\n
+ 164 | 3069 |     ADD  R7, R7, #15\n
+ 165 | 306A |     ADD  R7, R7, #10\n
+ 166 | 306B |     NOT  R7, R7\n
+ 167 | 306C |     ADD  R7, R7, #1\n
+ 168 | 306D |     ADD  R7, R4, R7        ; char - \'Z\'\n
+ 169 | 306E |     BRp  WRITE_CHAR\n
+ 170 | ???? | \n
+ 171 | ???? |     ; Uppercase transform\n
+ 172 | 306F |     LD   R7, ASCIIUPPERA\n
+ 173 | 3070 |     NOT  R7, R7\n
+ 174 | 3071 |     ADD  R7, R7, #1\n
+ 175 | 3072 |     ADD  R4, R4, R7        ; char -= \'A\'\n
+ 176 | 3073 |     ADD  R4, R4, R1        ; char += k\n
+ 177 | 3074 |     LD   R7, ALPHABETLEN\n
+ 178 | 3075 |     ADD  R6, R6, -1\n
+ 179 | 3076 |     STR  R7, R6, 0\n
+ 180 | 3077 |     ADD  R6, R6, -1\n
+ 181 | 3078 |     STR  R4, R6, 0\n
+ 182 | 3079 |     JSR  MOD\n
+ 183 | 307A |     LDR  R4, R6, 0\n
+ 184 | 307B |     ADD  R6, R6, 2\n
+ 185 | 307C |     LD   R7, ASCIIUPPERA\n
+ 186 | 307D |     ADD  R4, R4, R7\n
  187 | ???? | \n
- 188 | 307B |     LD   R7, ASCIIUPPERA\n
- 189 | 307C |     ADD  R7, R7, #10\n
- 190 | 307D |     ADD  R7, R7, #15\n
- 191 | 307E |     NOT  R7, R7\n
- 192 | 307F |     ADD  R7, R7, #1\n
- 193 | 3080 |     ADD  R7, R4, R7     ; \'Z\' - char\n
- 194 | 3081 |     BRp  STORING_CHAR\n
- 195 | ???? | \n
- 196 | 3082 |     LD   R7, ASCIIUPPERA\n
- 197 | 3083 |     NOT  R7, R7\n
- 198 | 3084 |     ADD  R7, R7, #1\n
- 199 | 3085 |     ADD  R4, R4, R7     ; char -= \'A\'\n
- 200 | 3086 |     ADD  R4, R4, R1     ; char += k\n
- 201 | ???? | \n
- 202 | 3087 |     LD   R7, ALPHABETLEN\n
- 203 | 3088 |     ADD  R6, R6, -1\n
- 204 | 3089 |     STR  R7, R6, #0\n
- 205 | 308A |     ADD  R6, R6, -1\n
- 206 | 308B |     STR  R4, R6, #0\n
- 207 | 308C |     JSR  MOD\n
- 208 | 308D |     LDR  R4, R6, #0\n
- 209 | 308E |     ADD  R6, R6, #3\n
- 210 | ???? | \n
- 211 | 308F |     LD   R7, ASCIIUPPERA\n
- 212 | 3090 |     ADD  R4, R4, R7\n
- 213 | ???? | \n
- 214 | ???? | STORING_CHAR:\n
- 215 | 3091 |     ADD  R7, R0, R2\n
- 216 | 3092 |     STR  R4, R7, #0\n
- 217 | 3093 |     ADD  R2, R2, #1     ; i++\n
- 218 | 3094 |     BR   FOR_LOOP_CHECK\n
- 219 | ???? | \n
- 220 | ???? | AFTER_FOR:\n
- 221 | 3095 |     STR  R0, R5, #3     ; if we want to store a return val\n
- 222 | ???? | \n
- 223 | ???? |     ; ------ TEARDOWN ------\n
- 224 | 3096 |     LDR  R4, R6, #0\n
- 225 | 3097 |     ADD  R6, R6, #1\n
- 226 | 3098 |     LDR  R3, R6, #0\n
- 227 | 3099 |     ADD  R6, R6, #1\n
- 228 | 309A |     LDR  R2, R6, #0\n
- 229 | 309B |     ADD  R6, R6, #1\n
- 230 | 309C |     LDR  R1, R6, #0\n
- 231 | 309D |     ADD  R6, R6, #1\n
- 232 | 309E |     LDR  R0, R6, #0\n
- 233 | 309F |     ADD  R6, R6, #1\n
- 234 | ???? | \n
- 235 | 30A0 |     ADD  R6, R6, #1     ; pop local var\n
- 236 | ???? | \n
- 237 | 30A1 |     LDR  R5, R6, #0\n
- 238 | 30A2 |     ADD  R6, R6, #1\n
- 239 | ???? | \n
- 240 | 30A3 |     LDR  R7, R6, #0\n
- 241 | 30A4 |     ADD  R6, R6, #1\n
- 242 | 30A5 |     RET\n
- 243 | ???? | \n
- 244 | ???? | .end\n
- 245 | ???? | \n
- 246 | ???? | ;; You may change the value of the string for debugging\n
- 247 | ???? | .orig x4000\n
- 248 | 4000 |     .stringz \"hello\"\n
- 249 | ???? | .end
+ 188 | ???? | WRITE_CHAR\n
+ 189 | ???? |     ; Save new char\n
+ 190 | 307E |     ADD  R7, R0, R3\n
+ 191 | 307F |     STR  R4, R7, 0\n
+ 192 | 3080 |     ADD  R3, R3, #1\n
+ 193 | 3081 |     BR   FOR_LOOP\n
+ 194 | ???? | \n
+ 195 | ???? | END_FOR\n
+ 196 | ???? |     ; Teardown\n
+ 197 | 3082 |     LDR  R4, R5, -5\n
+ 198 | 3083 |     LDR  R3, R5, -4\n
+ 199 | 3084 |     LDR  R2, R5, -3\n
+ 200 | 3085 |     LDR  R1, R5, -2\n
+ 201 | 3086 |     LDR  R0, R5, -1\n
+ 202 | 3087 |     ADD  R6, R5, 0\n
+ 203 | 3088 |     LDR  R5, R6, 1\n
+ 204 | 3089 |     LDR  R7, R6, 2\n
+ 205 | 308A |     ADD  R6, R6, 3\n
+ 206 | 308B |     RET\n
+ 207 | ???? | \n
+ 208 | ???? | .end\n
+ 209 | ???? | \n
+ 210 | ???? | .orig x4000\n
+ 211 | 4000 |     .stringz \"hello\"\n
+ 212 | ???? | .end\n
+ 213 | ???? | 
 ====================
