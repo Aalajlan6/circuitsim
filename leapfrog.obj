@@ -1,0 +1,102 @@
+LC-3 OBJ FILE
+
+.TEXT
+3000
+24
+2613
+E5FE
+1883
+2A12
+1320
+9D7F
+1DA1
+1C46
+0A01
+F025
+5020
+6E80
+0404
+7F00
+14A1
+1921
+0FFA
+5FE0
+7F00
+C040
+0100
+3000
+FE00
+0000
+
+.SYMBOL
+ADDR | EXT | LABEL
+3000 |   0 | SETUP
+300A |   0 | SKIP
+300B |   0 | LOOP
+3011 |   0 | DONE
+3014 |   0 | VALUE
+3015 |   0 | PLACE
+3016 |   0 | STOP
+
+.LINKER_INFO
+
+.DEBUG
+# DEBUG SYMBOLS FOR LC3TOOLS
+
+LABEL | INDEX
+SETUP |   265
+SKIP  |   521
+LOOP  |   547
+DONE  |   655
+VALUE |   710
+PLACE |   730
+STOP  |   750
+====================
+LINE | ADDR | SOURCE
+   0 | ???? | ;;=============================================================\n
+   1 | ???? | ;; CS 2110 - Spring 2025\n
+   2 | ???? | ;; Homework 4 - Leapfrog\n
+   3 | ???? | ;;=============================================================\n
+   4 | ???? | ;; Name: \n
+   5 | ???? | ;;=============================================================\n
+   6 | ???? | \n
+   7 | ???? | .orig x3000\n
+   8 | ???? | SETUP\n
+   9 | 3000 |     LD R3, VALUE     ; R3 = x0100\n
+  10 | 3001 |     LEA R2, SETUP    ; R2 = address\n
+  11 | 3002 |     ADD R4, R2, R3   ; R4 = R2 + R3\n
+  12 | ???? | \n
+  13 | 3003 |     LD R5, STOP      ; R5 = xFE00\n
+  14 | 3004 |     ADD R1, R4, #0   ; R1 = R4\n
+  15 | ???? | \n
+  16 | 3005 |     NOT R6, R5\n
+  17 | 3006 |     ADD R6, R6, #1\n
+  18 | 3007 |     ADD R6, R1, R6\n
+  19 | 3008 |     BRnp SKIP\n
+  20 | 3009 |     HALT\n
+  21 | ???? | \n
+  22 | ???? | SKIP\n
+  23 | 300A |     AND R0, R0, #0 \n
+  24 | ???? | \n
+  25 | ???? | LOOP\n
+  26 | 300B |     LDR R7, R2, #0\n
+  27 | 300C |     BRz DONE\n
+  28 | ???? | \n
+  29 | 300D |     STR R7, R4, #0\n
+  30 | 300E |     ADD R2, R2, #1\n
+  31 | 300F |     ADD R4, R4, #1\n
+  32 | 3010 |     BR LOOP\n
+  33 | ???? | \n
+  34 | ???? | DONE\n
+  35 | 3011 |     AND R7, R7, #0\n
+  36 | 3012 |     STR R7, R4, #0\n
+  37 | 3013 |     JMP R1\n
+  38 | ???? | \n
+  39 | 3014 | VALUE   .FILL x0100\n
+  40 | 3015 | PLACE   .FILL x3000\n
+  41 | 3016 | STOP    .FILL xFE00\n
+  42 | 3017 |         .FILL x0000\n
+  43 | ???? | \n
+  44 | ???? | .end\n
+  45 | ???? | 
+====================
