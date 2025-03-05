@@ -5,138 +5,221 @@
 ;; Name: Abdulaziz Alajlan
 ;;=============================================================
 
-;;  In this file, you must implement the 'MOD' and 'ENCRYPT' subroutines.
 .orig x3000
 
-    LD R6, STACK_PTR
+    ; -------------------------------
+    ; Main: Push arguments for ENCRYPT
+    ; -------------------------------
+    LD   R6, STACK_PTR       ; R6 = top of stack
+
+    ADD  R6, R6, -1          ; push SHIFT
+    LD   R0, SHIFT
+    STR  R0, R6, 0
     
-    ADD R6, R6, -1
-    LD R0, SHIFT
-    STR R0, R6, 0
+    ADD  R6, R6, -1          ; push STRING
+    LD   R0, STRING
+    STR  R0, R6, 0
     
-    ADD R6, R6, -1
-    LD R0, STRING
-    STR R0, R6, 0
+    JSR  ENCRYPT             ; call ENCRYPT(string, shift)
     
-    JSR ENCRYPT 
-    
-    ADD R6, R6, 2
+    ADD  R6, R6, 2           ; pop 2 arguments off stack
     HALT
 
-STACK_PTR .fill xF000
-STRING    .fill x4000
-SHIFT     .fill 5
-ALPHA     .fill 26
-ASCII_UPPER_A   .fill 65
-ASCII_UPPER_Z   .fill 90
-ASCII_LOWER_A   .fill 97
-ASCII_LOWER_Z   .fill 122
+; --------------------------------------------------------------
+STACK_PTR         .fill xF000
+STRING            .fill x4000
+SHIFT             .fill 5
+ALPHA             .fill 26
+ASCII_UPPER_A     .fill 65
+ASCII_UPPER_Z     .fill 90
+ASCII_LOWER_A     .fill 97
+ASCII_LOWER_Z     .fill 122
+
+; --------------------------------------------------------------
 
 MOD  
-    ADD R6, R6, -1 
-    STR R7, R6, 0  
-    ADD R6, R6, -1  
-    STR R5, R6, 0  
-    
-    LDR R0, R5, 4  
-    LDR R1, R5, 5  
+    ; ------ BUILD UP ------
+    ADD  R6, R6, -1  
+    STR  R7, R6, 0       ; save return address
+    ADD  R6, R6, -1
+    STR  R5, R6, 0       ; save old FP
+    ADD  R5, R6, 0       ; set R5 as new FP
 
-LOOP:
-    NOT R2, R1  
-    ADD R2, R2, 1  
-    ADD R3, R0, R2  
-    BRn DONE  
-    ADD R0, R3, #0  
-    BR LOOP  
+    ; allocate space for return value
+    ADD  R6, R6, -1
 
-DONE:  
-    STR R0, R5, 3  
-    ADD R6, R6, 1  
-    LDR R5, R6, 0  
-    ADD R6, R6, 1  
-    LDR R7, R6, 0  
-    ADD R6, R6, 1  
-    RET  
+    ; load arguments from caller's stack frame
+    LDR  R0, R5, #2      ; a
+    LDR  R1, R5, #3      ; b
 
-ENCRYPT 
-    ADD R6, R6, -1  
-    STR R7, R6, 0  ; Save return address
-    ADD R6, R6, -1  
-    STR R5, R6, 0  ; Save old fp
-    ADD R5, R6, 0  ; Set R5 as new fp
+MOD_LOOP:
+    NOT  R2, R1
+    ADD  R2, R2, #1      ; R2 = -b
+    ADD  R3, R0, R2      ; R3 = a - b
+    BRn  MOD_DONE
+    ADD  R0, R3, #0      ; a = a - b
+    BR   MOD_LOOP
 
-    LDR R0, R5, 2  ; Load first arg
-    LDR R1, R5, 3  ; Load second arg
+MOD_DONE:
+    ; store the result at FP+3
+    STR  R0, R5, #3
 
-LEN:
-    LDR R2, R0, #0  
-    BRz PROCESS  
-    ADD R0, R0, #1  
-    BR LEN  
-    
-PROCESS:
-    ADD R2, R0, #0  
-    LDR R3, R2, #0  
-    BRz END  
+    ; ------ TEAR DOWN ------
+    ADD  R6, R6, #1      ; pop return-value slot (unused, since we stored at FP+3)
 
-    LD R7, ASCII_LOWER_A
-    NOT R7, R7  
-    ADD R7, R7, 1  
-    ADD R4, R3, R7  
-    BRn CHECK_UPPER  
-    LD R7, ASCII_LOWER_Z
-    ADD R7, R7, 1  
-    NOT R7, R7  
-    ADD R4, R3, R7  
-    BRp CHECK_UPPER  
+    LDR  R5, R6, #0      ; restore old FP
+    ADD  R6, R6, #1      
 
-    LD R7, ASCII_LOWER_A  
-    NOT R7, R7  
-    ADD R7, R7, 1  
-    ADD R3, R3, R7  
-    ADD R3, R3, R1  
-    LD R7, ALPHA  
-    JSR MOD  
-    LDR R3, R6, #0  
-    ADD R6, R6, 1  
-    LD R7, ASCII_LOWER_A  
-    ADD R3, R3, R7  
-    BR STORE  
+    LDR  R7, R6, #0      ; restore return address
+    ADD  R6, R6, #1      
+    RET
+
+; --------------------------------------------------------------
+; ENCRYPT(str, k) --> modifies str in-place with Caesar shift
+; --------------------------------------------------------------
+ENCRYPT
+    ; ------ BUILD UP ------
+    ADD  R6, R6, -1
+    STR  R7, R6, 0        ; save return address
+    ADD  R6, R6, -1
+    STR  R5, R6, 0        ; save old FP
+    ADD  R5, R6, 0        ; set R5 as new FP
+
+    ; allocate space for local variable(s)
+    ADD  R6, R6, -1
+
+    ; save caller registers if needed
+    ADD  R6, R6, -1
+    STR  R0, R6, 0
+    ADD  R6, R6, -1
+    STR  R1, R6, 0
+    ADD  R6, R6, -1
+    STR  R2, R6, 0
+    ADD  R6, R6, -1
+    STR  R3, R6, 0
+    ADD  R6, R6, -1
+    STR  R4, R6, 0
+
+    ; load arguments
+    LDR  R0, R5, #2       ; str
+    LDR  R1, R5, #3       ; k
+
+    ; R2 = pointer used to find length
+    ADD  R2, R0, #0
+
+FIND_LEN:
+    LDR  R3, R2, #0
+    BRz  GOT_LEN
+    ADD  R2, R2, #1
+    BR   FIND_LEN
+
+GOT_LEN:
+    ; R2 now points to the null terminator
+    ; We'll do a for-loop from str to str+(length-1)
+
+    ; R4 = current pointer as we loop
+    ADD  R4, R0, #0
+
+ENC_LOOP:
+    LDR  R3, R4, #0
+    BRz  ENC_DONE         ; if char == 0, done
+
+    ; check if 'a' <= char <= 'z'
+    LD   R7, ASCII_LOWER_A
+    NOT  R7, R7
+    ADD  R7, R7, #1
+    ADD  R5, R3, R7       ; R5 = char - 'a'
+    BRn  CHECK_UPPER
+    LD   R7, ASCII_LOWER_Z
+    ADD  R7, R7, #1
+    NOT  R7, R7
+    ADD  R5, R3, R7       ; R5 = char - 'z'
+    BRp  CHECK_UPPER
+
+    ; 'a' <= char <= 'z', so shift
+    LD   R7, ASCII_LOWER_A
+    NOT  R7, R7
+    ADD  R7, R7, #1
+    ADD  R3, R3, R7       ; R3 = char - 'a'
+    ADD  R3, R3, R1       ; R3 += k
+
+    ; call MOD(R3, 26)
+    LD   R7, ALPHA
+    ADD  R6, R6, -1
+    STR  R7, R6, #0       ; push 2nd arg
+    ADD  R6, R6, -1
+    STR  R3, R6, #0       ; push 1st arg
+    JSR  MOD
+    LDR  R3, R6, #0
+    ADD  R6, R6, #2
+
+    LD   R7, ASCII_LOWER_A
+    ADD  R3, R3, R7
+    BR   WRITE_CHAR
 
 CHECK_UPPER:
-    LD R7, ASCII_UPPER_A  
-    NOT R7, R7  
-    ADD R7, R7, 1  
-    ADD R4, R3, R7  
-    BRn STORE  
-    LD R7, ASCII_UPPER_Z  
-    ADD R7, R7, 1  
-    NOT R7, R7  
-    ADD R4, R3, R7  
-    BRp STORE  
+    ; check if 'A' <= char <= 'Z'
+    LD   R7, ASCII_UPPER_A
+    NOT  R7, R7
+    ADD  R7, R7, #1
+    ADD  R5, R3, R7       ; R5 = char - 'A'
+    BRn  WRITE_CHAR
+    LD   R7, ASCII_UPPER_Z
+    ADD  R7, R7, #1
+    NOT  R7, R7
+    ADD  R5, R3, R7       ; R5 = char - 'Z'
+    BRp  WRITE_CHAR
 
-    LD R7, ASCII_UPPER_A  
-    NOT R7, R7  
-    ADD R7, R7, 1  
-    ADD R3, R3, R7  
-    ADD R3, R3, R1  
-    LD R7, ALPHA  
-    JSR MOD  
-    LDR R3, R6, #0  
-    ADD R6, R6, 1  
-    LD R7, ASCII_UPPER_A  
-    ADD R3, R3, R7  
+    ; 'A' <= char <= 'Z', so shift
+    LD   R7, ASCII_UPPER_A
+    NOT  R7, R7
+    ADD  R7, R7, #1
+    ADD  R3, R3, R7       ; R3 = char - 'A'
+    ADD  R3, R3, R1       ; R3 += k
 
-STORE:
-    STR R3, R2, #0  
-    ADD R0, R0, 1  
-    BR PROCESS  
+    ; call MOD(R3, 26)
+    LD   R7, ALPHA
+    ADD  R6, R6, -1
+    STR  R7, R6, #0
+    ADD  R6, R6, -1
+    STR  R3, R6, #0
+    JSR  MOD
+    LDR  R3, R6, #0
+    ADD  R6, R6, #2
 
-END:
-    LDR R5, R6, 0  ; Restore old FP
-    ADD R6, R6, 1  
-    LDR R7, R6, 0  ; Restore return address
-    ADD R6, R6, 1  
+    LD   R7, ASCII_UPPER_A
+    ADD  R3, R3, R7
+
+WRITE_CHAR:
+    STR  R3, R4, #0
+
+    ; move to next character
+    ADD  R4, R4, #1
+    BR   ENC_LOOP
+
+ENC_DONE:
+    ; ------ TEAR DOWN ------
+    STR  R0, R5, #3  ; store return value if needed
+
+    ; restore caller registers
+    LDR  R4, R6, #0
+    ADD  R6, R6, #1
+    LDR  R3, R6, #0
+    ADD  R6, R6, #1
+    LDR  R2, R6, #0
+    ADD  R6, R6, #1
+    LDR  R1, R6, #0
+    ADD  R6, R6, #1
+    LDR  R0, R6, #0
+    ADD  R6, R6, #1
+
+    ADD  R6, R6, #1  ; pop local variable
+
+    LDR  R5, R6, #0  ; restore old FP
+    ADD  R6, R6, #1
+
+    LDR  R7, R6, #0  ; restore return address
+    ADD  R6, R6, #1
     RET
 
 .end
