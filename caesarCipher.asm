@@ -60,11 +60,14 @@ DONE:
 
 ENCRYPT 
     ADD R6, R6, -1  
-    STR R7, R6, 0  
-    
-    LDR R0, R5, 4  
-    LDR R1, R5, 5  
-    
+    STR R7, R6, 0  ; Save return address
+    ADD R6, R6, -1  
+    STR R5, R6, 0  ; Save old fp
+    ADD R5, R6, 0  ; Set R5 as new fp
+
+    LDR R0, R5, 2  ; Load first arg
+    LDR R1, R5, 3  ; Load second arg
+
 LEN:
     LDR R2, R0, #0  
     BRz PROCESS  
@@ -130,9 +133,11 @@ STORE:
     BR PROCESS  
 
 END:
-    LDR R7, R6, 0  
+    LDR R5, R6, 0  ; Restore old FP
     ADD R6, R6, 1  
-    RET  
+    LDR R7, R6, 0  ; Restore return address
+    ADD R6, R6, 1  
+    RET
 
 .end
 
